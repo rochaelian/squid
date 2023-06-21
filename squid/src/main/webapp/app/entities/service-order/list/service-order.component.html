@@ -1,0 +1,104 @@
+<div>
+  <h2 id="page-heading" data-cy="ServiceOrderHeading">
+    <span>Service Orders</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-service-order"
+        [routerLink]="['/service-order/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Service Order </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="serviceOrders?.length === 0">
+    <span>No serviceOrders found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="serviceOrders && serviceOrders.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col"><span>Start Date</span></th>
+          <th scope="col"><span>End Date</span></th>
+          <th scope="col"><span>Deductible</span></th>
+          <th scope="col"><span>Updated Cost</span></th>
+          <th scope="col"><span>Comment</span></th>
+          <th scope="col"><span>Status</span></th>
+          <th scope="col"><span>Order</span></th>
+          <th scope="col"><span>Business Service</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let serviceOrder of serviceOrders; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/service-order', serviceOrder.id, 'view']">{{ serviceOrder.id }}</a>
+          </td>
+          <td>{{ serviceOrder.startDate | formatMediumDate }}</td>
+          <td>{{ serviceOrder.endDate | formatMediumDate }}</td>
+          <td>{{ serviceOrder.deductible }}</td>
+          <td>{{ serviceOrder.updatedCost }}</td>
+          <td>{{ serviceOrder.comment }}</td>
+          <td>
+            <div *ngIf="serviceOrder.status">
+              <a [routerLink]="['/catalog', serviceOrder.status?.id, 'view']">{{ serviceOrder.status?.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="serviceOrder.order">
+              <a [routerLink]="['/order', serviceOrder.order?.id, 'view']">{{ serviceOrder.order?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="serviceOrder.businessService">
+              <a [routerLink]="['/business-service', serviceOrder.businessService?.id, 'view']">{{ serviceOrder.businessService?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/service-order', serviceOrder.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/service-order', serviceOrder.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(serviceOrder)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

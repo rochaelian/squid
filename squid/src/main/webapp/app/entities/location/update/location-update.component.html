@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="saveLocation()" [formGroup]="editForm">
+      <h2 id="jhi-location-heading" data-cy="LocationCreateUpdateHeading">Dirección</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_province">Provincia</label>
+          <input type="text" class="form-control" name="province" id="field_province" data-cy="province" formControlName="province" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_canton">Cantón</label>
+          <input type="text" class="form-control" name="canton" id="field_canton" data-cy="canton" formControlName="canton" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_district">Distrito</label>
+          <input type="text" class="form-control" name="district" id="field_district" data-cy="district" formControlName="district" />
+        </div>
+
+        <agm-map style="height: 300px" [latitude]="lat" [longitude]="lng">
+          <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+        </agm-map>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_exactLocation">Dirección Exacta</label>
+          <input
+            type="text"
+            class="form-control"
+            name="exactLocation"
+            id="field_exactLocation"
+            data-cy="exactLocation"
+            formControlName="exactLocation"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

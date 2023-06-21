@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="transaction">
+      <h2 data-cy="transactionDetailsHeading"><span>Transaction</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ transaction.id }}</span>
+        </dd>
+        <dt><span>Card Number</span></dt>
+        <dd>
+          <span>{{ transaction.cardNumber }}</span>
+        </dd>
+        <dt><span>Cost</span></dt>
+        <dd>
+          <span>{{ transaction.cost }}</span>
+        </dd>
+        <dt><span>Source</span></dt>
+        <dd>
+          <span>{{ transaction.source?.id }}</span>
+        </dd>
+        <dt><span>Destination</span></dt>
+        <dd>
+          <div *ngIf="transaction.destination">
+            <a [routerLink]="['/business', transaction.destination?.id, 'view']">{{ transaction.destination?.name }}</a>
+          </div>
+        </dd>
+        <dt><span>Order</span></dt>
+        <dd>
+          <div *ngIf="transaction.order">
+            <a [routerLink]="['/order', transaction.order?.id, 'view']">{{ transaction.order?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/transaction', transaction.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

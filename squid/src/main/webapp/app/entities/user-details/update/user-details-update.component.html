@@ -1,0 +1,124 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+                <h4 id="jhi-user-details-heading" data-cy="UserDetailsCreateUpdateHeading">Create or edit a User Details</h4>
+
+                <div>
+                  <jhi-alert-error></jhi-alert-error>
+
+                  <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+                    <label class="form-control-label" for="field_id">ID</label>
+                    <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_identification">Identification</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="identification"
+                      id="field_identification"
+                      data-cy="identification"
+                      formControlName="identification"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_phone">Phone</label>
+                    <input type="text" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+                      <option [ngValue]="null"></option>
+                      <option value="Pending">Pending</option>
+                      <option value="Enabled">Enabled</option>
+                      <option value="Disabled">Disabled</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_internalUser">Internal User</label>
+                    <select
+                      class="form-control"
+                      id="field_internalUser"
+                      data-cy="internalUser"
+                      name="internalUser"
+                      formControlName="internalUser"
+                    >
+                      <option [ngValue]="null"></option>
+                      <option
+                        [ngValue]="
+                          userOption.id === editForm.get('internalUser')!.value?.id ? editForm.get('internalUser')!.value : userOption
+                        "
+                        *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+                      >
+                        {{ userOption.id }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_photograph">Photograph</label>
+                    <select class="form-control" id="field_photograph" data-cy="photograph" name="photograph" formControlName="photograph">
+                      <option [ngValue]="null"></option>
+                      <option
+                        [ngValue]="fileOption.id === editForm.get('photograph')!.value?.id ? editForm.get('photograph')!.value : fileOption"
+                        *ngFor="let fileOption of photographsCollection; trackBy: trackFileById"
+                      >
+                        {{ fileOption.uRL }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_business">Business</label>
+                    <select class="form-control" id="field_business" data-cy="business" name="business" formControlName="business">
+                      <option [ngValue]="null"></option>
+                      <option
+                        [ngValue]="
+                          businessOption.id === editForm.get('business')!.value?.id ? editForm.get('business')!.value : businessOption
+                        "
+                        *ngFor="let businessOption of businessesSharedCollection; trackBy: trackBusinessById"
+                      >
+                        {{ businessOption.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    type="button"
+                    id="cancel-save"
+                    data-cy="entityCreateCancelButton"
+                    class="btn btn-secondary"
+                    (click)="previousState()"
+                  >
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    id="save-entity"
+                    data-cy="entityCreateSaveButton"
+                    [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-primary"
+                  >
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

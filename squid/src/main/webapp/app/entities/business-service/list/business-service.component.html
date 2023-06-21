@@ -1,0 +1,77 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Servicios de comercios</h4>
+          <div class="d-flex justify-content-end buttonsCreateBusiness">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            </button>
+
+            <button
+              id="jh-create-entity"
+              data-cy="entityCreateButton"
+              class="btn btn-primary jh-create-entity create-business"
+              [routerLink]="['/business-service/new']"
+            >
+              <fa-icon icon="plus"></fa-icon>
+              <span> Agregar servicio </span>
+            </button>
+          </div>
+
+          <div class="alert alert-warning" id="no-result" *ngIf="servicesByOwner?.length === 0">
+            <span>No hay servicios registrados</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" id="entities" *ngIf="servicesByOwner && servicesByOwner.length > 0">
+            <table class="table">
+              <thead class="">
+                <tr>
+                  <th [hidden]="true">ID</th>
+                  <th>Precio</th>
+                  <th>Duración</th>
+                  <th>Comercio</th>
+                  <th>Servicio</th>
+                  <th class="text-left"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let businessService of servicesByOwner; trackBy: trackId" data-cy="entityTable">
+                  <td [hidden]="true">
+                    {{ businessService.id }}
+                  </td>
+                  <td>₡{{ businessService.price }}</td>
+                  <td>{{ businessService.duration }} h</td>
+                  <td>
+                    <div *ngIf="businessService.business">
+                      {{ businessService.business?.name }}
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngIf="businessService.service">
+                      {{ businessService.service?.name }}
+                    </div>
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group">
+                      <button
+                        type="submit"
+                        [routerLink]="['/business-service', businessService.id, 'edit']"
+                        class="btn btn-primary btn-sm"
+                        data-cy="entityEditButton"
+                      >
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <div *ngIf="catService">
+                <h2 data-cy="catServiceDetailsHeading"><span>Servicio definido por el sistema</span></h2>
+
+                <hr />
+
+                <jhi-alert-error></jhi-alert-error>
+
+                <jhi-alert></jhi-alert>
+
+                <dl class="row-md jh-entity-details">
+                  <dt [hidden]="true"><span>ID</span></dt>
+                  <dd>
+                    <span>{{ catService.id }}</span>
+                  </dd>
+                  <dt><span>Nombre</span></dt>
+                  <dd>
+                    <span>{{ catService.name }}</span>
+                  </dd>
+
+                  <dt><span>Categoría</span></dt>
+                  <dd>
+                    <div id="catcategoryView" [ngSwitch]="catService.category">
+                      <span *ngSwitchCase="'Preventive'" class="d-none d-md-inline">Mantenimiento preventivo</span>
+                      <span *ngSwitchCase="'Mechanics'" class="d-none d-md-inline">Mecánica rápida</span>
+                      <span *ngSwitchCase="'Cleaning'" class="d-none d-md-inline">Limpieza</span>
+                      <span *ngSwitchCase="'Accident'" class="d-none d-md-inline">Accivente</span>
+                    </div>
+                  </dd>
+                </dl>
+
+                <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+                  <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Atrás</span>
+                </button>
+
+                <button type="button" [routerLink]="['/cat-service', catService.id, 'edit']" class="btn btn-primary">
+                  <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

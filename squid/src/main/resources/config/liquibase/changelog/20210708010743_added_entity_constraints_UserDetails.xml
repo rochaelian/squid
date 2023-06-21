@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity UserDetails.
+    -->
+    <changeSet id="20210708010743-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="internal_user_id"
+                                 baseTableName="user_details"
+                                 constraintName="fk_user_details__internal_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="photograph_id"
+                                 baseTableName="user_details"
+                                 constraintName="fk_user_details__photograph_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="file"/>
+
+        <addForeignKeyConstraint baseColumnNames="business_id"
+                                 baseTableName="user_details"
+                                 constraintName="fk_user_details__business_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="business"/>
+    </changeSet>
+</databaseChangeLog>

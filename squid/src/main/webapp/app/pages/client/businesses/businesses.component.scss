@@ -1,0 +1,6 @@
+#businessCard {
+  transition: 0.5s;
+  &:hover {
+    transform: translateY(-10px);
+  }
+}

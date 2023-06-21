@@ -1,0 +1,32 @@
+<div class="card-header">
+  <div class="card card-user">
+    <div class="image">
+      <img src="./content/images/damir-bosnjak.jpg" alt="..." />
+    </div>
+    <div class="card-body" *ngIf="userDetails && user; else noOperator">
+      <div class="author">
+        <div class="content_img">
+          <img class="avatar border-gray image" [src]="user.imageUrl" alt="..." />
+        </div>
+        <a href="mailto:{{ user.email }}">
+          <h5 class="title">
+            {{ user.firstName }} {{ user.lastName }} <small>{{ user.email }}</small>
+          </h5>
+        </a>
+      </div>
+      <p class="description text-center">
+        Tel: {{ userDetails.phone }}
+        <a target="_blank" class="ngx-whatsapp-button-float" [href]="'https://api.whatsapp.com/send?phone=50688726393'">
+          <i class="fab fa-whatsapp fa-2x text-success"></i>
+        </a>
+      </p>
+
+      <p class="description text-center" [hidden]="!userDetails.business">Negocio: {{ userDetails.business?.name }}</p>
+    </div>
+    <ng-template #noOperator>
+      <div *ngIf="userId === null" class="mt-5 pt-5 pb-5 mb-5 pl-1 pr-1">
+        <h6>{{ idNullMessage }}</h6>
+      </div>
+    </ng-template>
+  </div>
+</div>

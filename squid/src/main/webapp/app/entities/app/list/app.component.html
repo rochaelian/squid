@@ -1,0 +1,61 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 id="page-heading" data-cy="APPHeading">
+              <span>Valores de negocio</span>
+            </h2>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <jhi-alert></jhi-alert>
+
+            <div class="alert alert-warning" id="no-result" *ngIf="aPPS?.length === 0">
+              <span>No aPPS found</span>
+            </div>
+
+            <div class="table-responsive" id="entities" *ngIf="aPPS && aPPS.length > 0">
+              <table class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                  <tr>
+                    <th scope="col" [hidden]="true"><span>ID</span></th>
+                    <th scope="col" [hidden]="true"><span>Tipo</span></th>
+                    <th scope="col"><span>Ingreso</span></th>
+                    <th scope="col"><span>Comisión</span></th>
+                    <th scope="col"><span>SEO</span></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let aPP of aPPS; trackBy: trackId" data-cy="entityTable">
+                    <td [hidden]="true">
+                      <a [routerLink]="['/app', aPP.id, 'view']">{{ aPP.id }}</a>
+                    </td>
+                    <td [hidden]="true">{{ aPP.type }}</td>
+                    <td>{{ aPP.income }}</td>
+                    <td>{{ aPP.comission }}</td>
+                    <td>{{ aPP.sEOCost }}</td>
+                    <td class="text-right">
+                      <div class="btn-group">
+                        <button
+                          type="submit"
+                          [routerLink]="['/app', aPP.id, 'edit']"
+                          class="btn btn-primary btn-sm"
+                          data-cy="entityEditButton"
+                        >
+                          <fa-icon icon="pencil-alt"></fa-icon>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+# ===================================================================
+# Spring Boot configuration for the "azure" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+azure:
+  application-insights:
+    instrumentation-key: c3efee7b-b11d-420d-9576-51ec4dfb8555

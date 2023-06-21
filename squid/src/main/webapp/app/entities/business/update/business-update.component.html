@@ -1,0 +1,205 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card card-user">
+      <div class="card-header">
+        <h2 class="card-title" data-cy="BusinessCreateUpdateHeading">Comercio</h2>
+      </div>
+      <div class="card-body">
+        <form name="editForm" role="form" novalidate (ngSubmit)="onUpload()" [formGroup]="editForm">
+          <div>
+            <div class="form-group" [hidden]="true">
+              <label class="form-control-label" for="field_id">ID</label>
+              <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_taxRegime">Régimen tributario</label>
+              <select class="form-control" id="field_taxRegime" data-cy="taxRegime" name="taxRegime" formControlName="taxRegime">
+                <option value="Físico">Físico</option>
+                <option value="Jurídico">Jurídico</option>
+              </select>
+              <div *ngIf="editForm.get('taxRegime')!.invalid && (editForm.get('taxRegime')!.dirty || editForm.get('taxRegime')!.touched)">
+                <small class="form-text text-danger" *ngIf="editForm.get('taxRegime')?.errors?.required">
+                  * El tipo de régimen tributario es requerido, seleccione una opción.
+                </small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_identification">Identificación</label>
+              <input
+                type="text"
+                class="form-control"
+                name="identification"
+                id="field_identification"
+                data-cy="identification"
+                formControlName="identification"
+              />
+              <div
+                *ngIf="
+                  editForm.get('identification')!.invalid &&
+                  (editForm.get('identification')!.dirty || editForm.get('identification')!.touched)
+                "
+              >
+                <span class="form-text text-danger" *ngIf="editForm.get('identification')?.errors?.required">
+                  * La identificacón es requerida.
+                </span>
+                <span class="form-text text-danger" *ngIf="editForm.get('identification')?.errors?.minlength">
+                  * La identificación debe tener un mínimo de 9 dígitos.
+                </span>
+                <span class="form-text text-danger" *ngIf="editForm.get('identification')?.errors?.maxlength">
+                  * La identificación debe tener un máximo de 12 dígitos.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_name">Nombre</label>
+              <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+              <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                <span class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> * El nombre es requerido. </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_capacity">Capacidad de vehículos por cita</label>
+              <input type="number" class="form-control" name="capacity" id="field_capacity" data-cy="capacity" formControlName="capacity" />
+              <div *ngIf="editForm.get('capacity')!.invalid && (editForm.get('capacity')!.dirty || editForm.get('capacity')!.touched)">
+                <span class="form-text text-danger" *ngIf="editForm.get('capacity')?.errors?.required"> * La capacidad es requerida. </span>
+              </div>
+            </div>
+            <div>
+              <div>
+                <label class="form-control-label" for="field_capacity">Cargar imagenes</label>
+                <ngx-dropzone (change)="onSelect($event)" style="margin: 20px">
+                  <ngx-dropzone-label>Cargar imagen!</ngx-dropzone-label>
+                  <ngx-dropzone-image-preview
+                    ngProjectAs="ngx-dropzone-preview"
+                    *ngFor="let f of files"
+                    [file]="f"
+                    [removable]="true"
+                    (removed)="onRemove(f)"
+                  >
+                    <ngx-dropzone-label></ngx-dropzone-label>
+                  </ngx-dropzone-image-preview>
+                </ngx-dropzone>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_category">Categoría</label>
+              <select class="form-control" id="field_category" data-cy="category" name="category" formControlName="category">
+                <option
+                  [ngValue]="catalogOption.id === editForm.get('category')!.value?.id ? editForm.get('category')!.value : catalogOption"
+                  *ngFor="let catalogOption of catalogsSharedCollection; trackBy: trackCatalogById"
+                >
+                  {{ catalogOption.name }}
+                </option>
+              </select>
+              <div *ngIf="editForm.get('category')!.invalid && (editForm.get('category')!.dirty || editForm.get('category')!.touched)">
+                <span class="form-text text-danger" *ngIf="editForm.get('category')?.errors?.required">
+                  * La categoría es requerida, favor seleccione una opción.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="field_catalogs">Aseguradoras</label>
+              <select class="form-control" id="field_catalogs" data-cy="catalog" multiple name="catalogs" formControlName="catalogs">
+                <option
+                  [ngValue]="getSelectedCatalog(catalogOption, editForm.get('catalogs')!.value)"
+                  *ngFor="let catalogOption of catsInsurance; trackBy: trackCatalogById"
+                >
+                  {{ catalogOption.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" [hidden]="true">
+            <label class="form-control-label" for="field_idLocation">ID</label>
+            <input
+              type="number"
+              class="form-control"
+              name="idLocation"
+              id="field_idLocation"
+              data-cy="idLocation"
+              formControlName="idLocation"
+              [readonly]="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label" for="field_province">Provincia</label>
+            <select class="form-control" name="province" id="field_province" data-cy="province" formControlName="province">
+              <option value="San José">San José</option>
+              <option value="Alajuela">Alajuela</option>
+              <option value="Cartago">Cartago</option>
+              <option value="Heredia">Heredia</option>
+              <option value="Puntarenas">Puntarenas</option>
+              <option value="Guanacaste">Guanacaste</option>
+              <option value="Limón">Limón</option>
+            </select>
+
+            <div *ngIf="editForm.get('province')!.invalid && (editForm.get('province')!.dirty || editForm.get('province')!.touched)">
+              <span class="form-text text-danger" *ngIf="editForm.get('province')?.errors?.required">
+                * Favor ingrese el nombre de la provincia.
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label" for="field_canton">Cantón</label>
+            <input type="text" class="form-control" name="canton" id="field_canton" data-cy="canton" formControlName="canton" />
+            <div *ngIf="editForm.get('canton')!.invalid && (editForm.get('canton')!.dirty || editForm.get('canton')!.touched)">
+              <span class="form-text text-danger" *ngIf="editForm.get('canton')?.errors?.required">
+                * Favor ingrese el nombre del cantón.
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label" for="field_district">Distrito</label>
+            <input type="text" class="form-control" name="district" id="field_district" data-cy="district" formControlName="district" />
+            <div *ngIf="editForm.get('district')!.invalid && (editForm.get('district')!.dirty || editForm.get('district')!.touched)">
+              <span class="form-text text-danger" *ngIf="editForm.get('district')?.errors?.required">
+                * Favor ingrese el nombre del distrito.
+              </span>
+            </div>
+          </div>
+
+          <agm-map style="height: 300px" [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+            <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+          </agm-map>
+
+          <div class="form-group">
+            <label class="form-control-label" for="field_exactLocation">Dirección Exacta</label>
+            <input
+              type="text"
+              class="form-control"
+              name="exactLocation"
+              id="field_exactLocation"
+              data-cy="exactLocation"
+              formControlName="exactLocation"
+            />
+          </div>
+          <div>
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+              <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+            </button>
+
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

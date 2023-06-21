@@ -1,0 +1,63 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+                <h4 id="jhi-cat-service-heading" data-cy="CatServiceCreateUpdateHeading">Crear o editar servicios del sistema</h4>
+
+                <div>
+                  <jhi-alert-error></jhi-alert-error>
+
+                  <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+                    <label class="form-control-label" for="field_id">ID</label>
+                    <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_name">Nombre</label>
+                    <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_category">Categoría</label>
+                    <select class="form-control" name="category" formControlName="category" id="field_category" data-cy="category">
+                      <option [ngValue]="null"></option>
+                      <option value="Preventive">Mantenimientos preventivos</option>
+                      <option value="Mechanics">Mecánica rápida</option>
+                      <option value="Cleaning">Limpieza</option>
+                      <option value="Accident">Accidente vehicular</option>
+                    </select>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      id="cancel-save"
+                      data-cy="entityCreateCancelButton"
+                      class="btn btn-secondary"
+                      (click)="previousState()"
+                    >
+                      <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+                    </button>
+
+                    <button
+                      type="submit"
+                      id="save-entity"
+                      data-cy="entityCreateSaveButton"
+                      [disabled]="editForm.invalid || isSaving"
+                      class="btn btn-primary"
+                    >
+                      <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

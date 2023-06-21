@@ -1,0 +1,93 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h4 id="page-heading" data-cy="CatalogHeading">
+              <span>Catálogos del sistema</span>
+            </h4>
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+                <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+                <span></span>
+              </button>
+
+              <button
+                id="jh-create-entity"
+                data-cy="entityCreateButton"
+                class="btn btn-primary jh-create-entity create-catalog"
+                [routerLink]="['/catalog/new']"
+              >
+                <fa-icon icon="plus"></fa-icon>
+              </button>
+            </div>
+
+            <div class="alert alert-warning" id="no-result" *ngIf="catalogs?.length === 0">
+              <span>No se han encontrado catálogos del sistema</span>
+            </div>
+
+            <div class="table-responsive" id="entities" *ngIf="catalogs && catalogs.length > 0">
+              <table class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                  <tr>
+                    <th scope="col" [hidden]="true"><span>ID</span></th>
+                    <th scope="col"><span>Nombre</span></th>
+                    <th scope="col"><span>Tipo</span></th>
+                    <th scope="col"><span>Estado</span></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let catalog of catalogs; trackBy: trackId" data-cy="entityTable">
+                    <td [hidden]="true">
+                      <a [routerLink]="['/catalog', catalog.id, 'view']">{{ catalog.id }}</a>
+                    </td>
+                    <td>{{ catalog.name }}</td>
+                    <td>{{ catalog.type }}</td>
+
+                    <td>
+                      <div *ngIf="catalog.status == 'Enabled'; else showDos">
+                        <bSwitch
+                          [switch-on-color]="'success'"
+                          [switch-off-color]="'primary'"
+                          [switch-off-text]="' '"
+                          [switch-on-text]="' '"
+                          ngModel="true"
+                          (changeState)="updateStatusButton(catalog)"
+                        ></bSwitch>
+                      </div>
+
+                      <ng-template #showDos>
+                        <bSwitch
+                          [switch-on-color]="'primary'"
+                          [switch-off-color]="'primary'"
+                          [switch-off-text]="' '"
+                          [switch-on-text]="' '"
+                          (changeState)="updateStatusButton(catalog)"
+                        ></bSwitch>
+                      </ng-template>
+                    </td>
+
+                    <td class="text-right">
+                      <div class="btn-group">
+                        <button
+                          type="submit"
+                          [routerLink]="['/catalog', catalog.id, 'edit']"
+                          class="btn btn-primary btn-sm"
+                          data-cy="entityEditButton"
+                        >
+                          <fa-icon icon="pencil-alt"></fa-icon>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

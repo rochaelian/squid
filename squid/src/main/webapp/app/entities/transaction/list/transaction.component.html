@@ -1,0 +1,96 @@
+<div>
+  <h2 id="page-heading" data-cy="TransactionHeading">
+    <span>Transactions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-transaction"
+        [routerLink]="['/transaction/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Transaction </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="transactions?.length === 0">
+    <span>No transactions found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="transactions && transactions.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col"><span>Card Number</span></th>
+          <th scope="col"><span>Cost</span></th>
+          <th scope="col"><span>Source</span></th>
+          <th scope="col"><span>Destination</span></th>
+          <th scope="col"><span>Order</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/transaction', transaction.id, 'view']">{{ transaction.id }}</a>
+          </td>
+          <td>{{ transaction.cardNumber }}</td>
+          <td>{{ transaction.cost }}</td>
+          <td>
+            {{ transaction.source?.id }}
+          </td>
+          <td>
+            <div *ngIf="transaction.destination">
+              <a [routerLink]="['/business', transaction.destination?.id, 'view']">{{ transaction.destination?.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="transaction.order">
+              <a [routerLink]="['/order', transaction.order?.id, 'view']">{{ transaction.order?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/transaction', transaction.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/transaction', transaction.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(transaction)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

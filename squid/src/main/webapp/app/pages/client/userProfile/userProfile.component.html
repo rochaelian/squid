@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card card-user">
+      <div class="image" *ngIf="!showDropZone">
+        <img src="./content/images/damir-bosnjak.jpg" alt="..." />
+      </div>
+      <div *ngIf="account">
+        <div
+          class="custom-dropzone mb-5 clearfix"
+          ngx-dropzone
+          (change)="onSelect($event)"
+          style="margin: 20px"
+          [disableClick]="files.length > 0"
+          *ngIf="showDropZone"
+        >
+          <ngx-dropzone-label>Click para seleccionar o arrastrar imagen.</ngx-dropzone-label>
+          <ngx-dropzone-image-preview
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let f of files"
+            [file]="f"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label></ngx-dropzone-label>
+          </ngx-dropzone-image-preview>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="userDetails">
+        <div class="author">
+          <div
+            *ngIf="!showDropZone"
+            (click)="showDropZone = !showDropZone"
+            (mouseover)="imageHover = true"
+            (mouseout)="imageHover = false"
+            class="content_img"
+          >
+            <img class="avatar border-gray image" [src]="account.imageUrl" alt="..." />
+            <div>Cambiar imagen</div>
+          </div>
+
+          <div *ngIf="showDropZone">
+            <br />
+            <br />
+          </div>
+          <a href="javascript:void(0);">
+            <h5 class="title">
+              {{ account.firstName }} {{ account.lastName }} <small>(@{{ account.login }})</small>
+            </h5>
+          </a>
+          <p class="description">{{ account.email }}</p>
+        </div>
+        <p class="description text-center">Tel: {{ userDetails.phone }}</p>
+        <p class="description text-center" [hidden]="!userDetails.business">Negocio: {{ userDetails.business?.name }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="card card-user">
+      <div class="card-header">
+        <div class="alert alert-success" *ngIf="success"><strong>Información de perfil actualizada correctamente.</strong></div>
+
+        <div class="alert alert-danger" *ngIf="error"><strong>Datos inválidos.</strong> Intente de nuevo.</div>
+
+        <h5 class="card-title">Datos personales</h5>
+      </div>
+      <div class="card-body">
+        <form name="form" role="form" (ngSubmit)="checkImageBeforeUpdate()" [formGroup]="settingsForm" *ngIf="account" novalidate>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Nombre de usuario</label>
+                <input type="text" class="form-control readonly" id="login" name="login" formControlName="login" data-cy="login" readonly />
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" formControlName="email" data-cy="email" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName" data-cy="firstname" />
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" formControlName="lastName" data-cy="lastname" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Identificación</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identification"
+                  name="identification"
+                  formControlName="identification"
+                  data-cy="identification"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Número telefónico</label>
+                <input type="text" class="form-control" id="phone" name="phone" formControlName="phone" data-cy="phone" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <a routerLink="/account/password">
+                <button class="btn btn-default btn-round">Cambiar contraseña</button>
+              </a>
+              <button type="submit" class="btn btn-primary btn-round">ACTUALIZAR PERFIL</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

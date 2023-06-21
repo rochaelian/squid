@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Test invoice #101</title>
+
+    <style>
+      .invoice-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        font-size: 16px;
+        line-height: 24px;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        color: #555;
+      }
+
+      .invoice-hacienda-info {
+        font-size: 9px;
+        line-height: 2px;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        color: #555;
+      }
+
+      .invoice-container table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+      }
+
+      .invoice-container table td {
+        padding: 5px;
+        vertical-align: top;
+      }
+
+      .invoice-container table tr td:nth-child(2) {
+        text-align: right;
+      }
+
+      .invoice-container table tr.top table td {
+        padding-bottom: 20px;
+      }
+
+      .invoice-container table tr.top table td.title {
+        font-size: 45px;
+        line-height: 45px;
+        color: #333;
+      }
+
+      .invoice-container table tr.information table td {
+        padding-bottom: 40px;
+      }
+
+      .invoice-container table tr.heading td {
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+      }
+
+      .invoice-container table tr.details td {
+        padding-bottom: 20px;
+      }
+
+      .invoice-container table tr.item td {
+        border-bottom: 1px solid #eee;
+      }
+
+      .invoice-container table tr.item.last td {
+        border-bottom: none;
+      }
+
+      .invoice-container table tr.total td:nth-child(2) {
+        border-top: 2px solid #eee;
+        font-weight: bold;
+      }
+
+      @media only print {
+        .invoice-container table tr.top table td {
+          width: 100%;
+          display: block;
+          text-align: center;
+        }
+
+        .invoice-container table tr.information table td {
+          width: 100%;
+          display: block;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="invoice-container">
+      <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+          <td colspan="2">
+            <table>
+              <tr>
+                <td class="title">Squid</td>
+
+                <td>
+                  Manati S.A.<br />
+                  2-0710-0376<br />
+                  Cartago, Costa Rica
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="information">
+          <td colspan="2">
+            <table>
+              <tr>
+                <td>
+                  Fecha emision: $fechaEmision<br />
+                  Cliente: $cliente<br />
+                  Cedula: $cedula<br />
+                  Correo: $correo<br />
+                  Placa: $placa
+                </td>
+
+                <td>
+                  Factura No. 001000010100000000$num<br />
+                  Telefono: 22021010<br />
+                  Correo: squid@squid-support.com<br />
+                  Condicion Venta: Contado<br />
+                  Moneda: CRC
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="heading">
+          <td>Detalle</td>
+          +
+          <td>Precio</td>
+        </tr>
+
+        <tr class="item">
+          <td>$descripcion</td>
+
+          <td>$monto.00 CRC</td>
+        </tr>
+
+        <tr class="total">
+          <td></td>
+
+          <td>
+            Subtotal:$subtotal.00 CRC<br />
+            IVA:$iva<br />
+            Total:$total.00 CRC<br />
+          </td>
+        </tr>
+      </table>
+      <div class="invoice-hacienda-info">
+        <p>Clave numerica : 50610101900020710037600100001010000000071100017490</p>
+        <p>Num. de Factura para pagos por conectividad: 9990174900171 o por Num. de Cliente 9990174900105</p>
+        <p>Autorizada mediante Resolucion No. DGT-R-033-2019 del 20/06/2019 de la DGTD v.4.3</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+<jhi-page-ribbon></jhi-page-ribbon>
+<div class="sidebar" data-color="brown" data-active-color="danger" *ngIf="account !== null">
+  <jhi-sidebar></jhi-sidebar>
+</div>
+
+<div [ngClass]="{ 'main-panel': account !== null }">
+  <router-outlet name="navbar"></router-outlet>
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+  <jhi-footer *ngIf="account !== null"></jhi-footer>
+  <!--  <div *ngIf="account === null" class="full-page-background" style="background-image:  url('./content/images/workshop-background.jpg') "></div>-->
+</div>

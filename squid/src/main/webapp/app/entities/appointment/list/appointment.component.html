@@ -1,0 +1,76 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Citas</h4>
+          <div class="d-flex justify-content-end buttonsCreateBusiness">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            </button>
+          </div>
+
+          <div class="alert alert-warning" id="no-result" *ngIf="orders?.length === 0">
+            <span>No hay citas pendientes.</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" id="entities" *ngIf="orders && orders.length > 0">
+            <table class="table">
+              <tr>
+                <th scope="col"><span>ID de cita</span></th>
+                <th scope="col"><span>Fecha de cita</span></th>
+                <th scope="col"><span>Estado</span></th>
+                <th scope="col"><span>Usuario</span></th>
+                <th scope="col"><span>Detalle del vehículo</span></th>
+                <th scope="col"></th>
+              </tr>
+              <tbody>
+                <tr *ngFor="let order of orders; trackBy: trackId" data-cy="entityTable">
+                  <td>{{ order.id }}</td>
+                  <td>{{ order.startDate | formatMediumDate }}</td>
+                  <td>
+                    <div *ngIf="order.status">
+                      {{ order.status?.name }}
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngIf="order.vehicle">
+                      {{ order.vehicle?.user?.login }}
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngIf="order.vehicle">
+                      <button
+                        type="submit"
+                        [routerLink]="['/vehicle', order.vehicle?.id, 'view']"
+                        class="btn btn-info btn-sm"
+                        data-cy="entityDetailsButton"
+                      >
+                        <fa-icon icon="eye"></fa-icon>
+                        <span class="d-none d-md-inline">{{ order.vehicle?.plate }}</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group">
+                      <button
+                        type="submit"
+                        (click)="updateAppointmentToOrder(order)"
+                        class="btn btn-danger btn-sm"
+                        data-cy="entityEditButton"
+                      >
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                        <span class="d-none d-md-inline">INICIAR CITA</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

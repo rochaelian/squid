@@ -1,0 +1,54 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <div *ngIf="aPP">
+                <h2 data-cy="aPPDetailsHeading"><span>Valores de negocio</span></h2>
+
+                <hr />
+
+                <jhi-alert-error></jhi-alert-error>
+
+                <jhi-alert></jhi-alert>
+
+                <dl class="row-md jh-entity-details">
+                  <dt [hidden]="true"><span>ID</span></dt>
+                  <dd [hidden]="true">
+                    <span>{{ aPP.id }}</span>
+                  </dd>
+                  <dt><span>Tipo</span></dt>
+                  <dd>
+                    <span>{{ aPP.type }}</span>
+                  </dd>
+                  <dt><span>Ingreso</span></dt>
+                  <dd>
+                    <span>{{ aPP.income }}</span>
+                  </dd>
+                  <dt><span>Comisión</span></dt>
+                  <dd>
+                    <span>{{ aPP.comission }}</span>
+                  </dd>
+                  <dt><span>SEO</span></dt>
+                  <dd>
+                    <span>{{ aPP.sEOCost }}</span>
+                  </dd>
+                </dl>
+
+                <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+                  <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Atrás</span>
+                </button>
+
+                <button type="button" [routerLink]="['/app', aPP.id, 'edit']" class="btn btn-primary">
+                  <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

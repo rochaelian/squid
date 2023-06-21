@@ -1,0 +1,107 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h4 id="page-heading" data-cy="UserDetailsHeading">
+              <span>User Details</span>
+            </h4>
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+                <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+                <span>Refresh List</span>
+              </button>
+
+              <button
+                id="jh-create-entity"
+                data-cy="entityCreateButton"
+                class="btn btn-primary jh-create-entity create-user-details"
+                [routerLink]="['/user-details/new']"
+              >
+                <fa-icon icon="plus"></fa-icon>
+                <span> Create a new User Details </span>
+              </button>
+            </div>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <jhi-alert></jhi-alert>
+
+            <div class="alert alert-warning" id="no-result" *ngIf="userDetails?.length === 0">
+              <span>No userDetails found</span>
+            </div>
+
+            <div class="table-responsive" id="entities" *ngIf="userDetails && userDetails.length > 0">
+              <table class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                  <tr>
+                    <th scope="col"><span>ID</span></th>
+                    <th scope="col"><span>Identification</span></th>
+                    <th scope="col"><span>Phone</span></th>
+                    <th scope="col"><span>Status</span></th>
+                    <th scope="col"><span>Internal User</span></th>
+                    <th scope="col"><span>Photograph</span></th>
+                    <th scope="col"><span>Business</span></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let userDetails of userDetails; trackBy: trackId" data-cy="entityTable">
+                    <td>
+                      <a [routerLink]="['/user-details', userDetails.id, 'view']">{{ userDetails.id }}</a>
+                    </td>
+                    <td>{{ userDetails.identification }}</td>
+                    <td>{{ userDetails.phone }}</td>
+                    <td>{{ userDetails.status }}</td>
+                    <td>
+                      {{ userDetails.internalUser?.id }}
+                    </td>
+                    <td>
+                      <div *ngIf="userDetails.photograph">
+                        <a [routerLink]="['/file', userDetails.photograph?.id, 'view']">{{ userDetails.photograph?.uRL }}</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="userDetails.business">
+                        <a [routerLink]="['/business', userDetails.business?.id, 'view']">{{ userDetails.business?.name }}</a>
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="btn-group">
+                        <button
+                          type="submit"
+                          [routerLink]="['/user-details', userDetails.id, 'view']"
+                          class="btn btn-info btn-sm"
+                          data-cy="entityDetailsButton"
+                        >
+                          <fa-icon icon="eye"></fa-icon>
+                          <span class="d-none d-md-inline">View</span>
+                        </button>
+
+                        <button
+                          type="submit"
+                          [routerLink]="['/user-details', userDetails.id, 'edit']"
+                          class="btn btn-primary btn-sm"
+                          data-cy="entityEditButton"
+                        >
+                          <fa-icon icon="pencil-alt"></fa-icon>
+                          <span class="d-none d-md-inline">Edit</span>
+                        </button>
+
+                        <button type="submit" (click)="delete(userDetails)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                          <fa-icon icon="times"></fa-icon>
+                          <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,185 @@
+<ng-template #template>
+  <li [ngClass]="{ 'timeline-inverted': odd }">
+    <div
+      class="timeline-badge success"
+      [ngClass]="{
+        default: so?.status?.name === 'En espera',
+        warning: so?.status?.name === 'En proceso',
+        success: so?.status?.name === 'Terminado'
+      }"
+    >
+      <i class="nc-icon nc-settings"></i>
+    </div>
+    <div class="timeline-panel">
+      <div class="timeline-heading">
+        <div class="dropdown float-right">
+          <button
+            type="button"
+            class="btn btn-round btn-sm dropdown-toggle"
+            [ngClass]="{
+              'btn-default': so?.status?.name === 'En espera',
+              'btn-warning': so?.status?.name === 'En proceso',
+              'btn-success': so?.status?.name === 'Terminado'
+            }"
+            data-toggle="dropdown"
+            [disabled]="isLoadingOrderStatus || so?.status?.name === 'Terminado'"
+          >
+            <!--                        <i class="nc-icon nc-settings-gear-65"></i>-->
+            <fa-icon icon="sync" *ngIf="isLoadingOrderStatus" [spin]="isLoadingOrderStatus"></fa-icon>
+            {{ so?.status?.name }}
+          </button>
+          <div
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdownMenuLink"
+            *jhiHasAnyAuthority="['ROLE_OPERATOR', 'ROLE_BUSINESS_ADMIN']"
+          >
+            <!--Condiciones de posibles estados-->
+            <ng-template ngFor let-catalog [ngForOf]="catalogsSharedCollection!">
+              <ng-template [ngIf]="so?.status?.name === 'En espera'">
+                <a
+                  *ngIf="catalog.type === 'Estado de servicio' && catalog.name === 'En proceso'"
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="changeSOStatus(catalog)"
+                  >{{ catalog.name }}</a
+                >
+              </ng-template>
+              <ng-template [ngIf]="so?.status?.name === 'En proceso'">
+                <a
+                  *ngIf="catalog.type === 'Estado de servicio' && catalog.name === 'Terminado'"
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="changeSOStatus(catalog)"
+                  >{{ catalog.name }}</a
+                >
+              </ng-template>
+            </ng-template>
+          </div>
+        </div>
+        <h5>
+          <strong>{{ so?.businessService?.service?.name }}</strong>
+        </h5>
+        <small class="float-left">
+          <i class="fa fa-clock-o"></i> {{ so?.startDate?.format('DD/MM/YYYY') }} -
+          <span *ngIf="so?.endDate; else pending">
+            {{ so?.endDate?.format('DD/MM/YYYY') }}
+            <!--                        {{ so.endDate?.format('D/M/YY HH:mm a') }}-->
+          </span>
+          <ng-template #pending>
+            <span>Pendiente</span>
+          </ng-template>
+          | <strong>Precio: &#8353;{{ so?.businessService?.price }}</strong>
+        </small>
+      </div>
+      <br />
+      <div class="timeline-body">
+        <!--        <br />-->
+        <p>
+          <strong>Comentario </strong>
+          <!--Button only shows to operator or business admin-->
+          <span *jhiHasAnyAuthority="['ROLE_OPERATOR', 'ROLE_BUSINESS_ADMIN']">
+            <button
+              *ngIf="so?.commentEditable === false || so?.commentEditable === undefined"
+              (click)="so!.commentEditable = true"
+              type="button"
+              class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral"
+            >
+              <i *ngIf="!isLoadingComment" class="far fa-edit fa-xs text-info"></i>
+              <fa-icon class="fa-xs" icon="sync" *ngIf="isLoadingComment" [spin]="isLoadingComment"></fa-icon>
+            </button>
+          </span>
+        </p>
+        <div class="row" *ngIf="so?.commentEditable === false || so?.commentEditable === undefined; else commentEditable">
+          <div class="col-12">
+            <p *ngIf="so?.comment === ''; else commentAvailable">(Sin comentario)</p>
+            <ng-template #commentAvailable>
+              <p>{{ so?.comment }}</p></ng-template
+            >
+          </div>
+        </div>
+        <ng-template #commentEditable>
+          <div class="row">
+            <div class="col-9">
+              <div>
+                <textarea #comment="ngModel" name="comment" type="text" class="form-control mb-3" [(ngModel)]="so!.comment"></textarea>
+              </div>
+            </div>
+
+            <div class="col-3">
+              <button type="button" (click)="cancelComment()" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral float-left">
+                <i class="nc-icon nc-simple-remove"></i>
+              </button>
+              <button
+                (click)="saveComment()"
+                type="submit"
+                rel="tooltip"
+                title=""
+                class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral float-left"
+              >
+                <i class="nc-icon nc-check-2"></i>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="timeline-footer">
+        <table class="table">
+          <tr>
+            <!--            <td>-->
+            <!--              <span *ngIf="so?.businessService?.service?.category === 'Preventive'" class="badge badge-pill badge-danger float-left"-->
+            <!--                >Mantenimientos preventivos</span-->
+            <!--              >-->
+            <!--              <span *ngIf="so?.businessService?.service?.category === 'Mechanics'" class="badge badge-pill badge-danger float-left"-->
+            <!--                >Mecánica rápida</span-->
+            <!--              >-->
+            <!--              <span *ngIf="so?.businessService?.service?.category === 'Limpieza'" class="badge badge-pill badge-danger float-left"-->
+            <!--                >Limpieza</span-->
+            <!--              >-->
+            <!--              <span *ngIf="so?.businessService?.service?.category === 'Accident'" class="badge badge-pill badge-danger float-left"-->
+            <!--                >Accidente vehicular</span-->
+            <!--              >-->
+            <!--            </td>-->
+            <td class="text-right">Fotografías:</td>
+            <td class="img-row" *ngFor="let file of so?.files">
+              <div class="img-wrapper">
+                <a href="{{ file.uRL }}" target="_blank">
+                  <img [src]="transformImage(file?.uRL!)" class="img-raised" />
+                </a>
+              </div>
+            </td>
+            <td class="td-actions" *jhiHasAnyAuthority="['ROLE_OPERATOR', 'ROLE_BUSINESS_ADMIN']">
+              <a data-toggle="collapse" #addPhotoButton [attr.href]="'#collapse' + so?.id">
+                <button title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral">
+                  <i class="nc-icon nc-simple-add"></i>
+                </button>
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <div [attr.id]="'accordion' + so?.id" role="tablist" class="card-collapse mb-n5 pb-3">
+          <div [attr.id]="'collapse' + so?.id" class="collapse" role="tabpanel">
+            <div class="custom-dropzone mb-5 clearfix" ngx-dropzone style="margin: 20px" (change)="soDropboxOnSelect($event)">
+              <ngx-dropzone-label>Click para seleccionar o arrastrar imagen.</ngx-dropzone-label>
+              <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of dropZoneFiles" [file]="f">
+                <ngx-dropzone-label></ngx-dropzone-label>
+              </ngx-dropzone-image-preview>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--      <span *ngIf="so?.businessService?.service?.category === 'Preventive'" class="badge badge-pill badge-danger float-left"-->
+    <!--        >Mantenimientos preventivos</span-->
+    <!--      >-->
+    <!--      <span *ngIf="so?.businessService?.service?.category === 'Mechanics'" class="badge badge-pill badge-danger float-left"-->
+    <!--        >Mecánica rápida</span-->
+    <!--      >-->
+    <!--      <span *ngIf="so?.businessService?.service?.category === 'Limpieza'" class="badge badge-pill badge-danger float-left"-->
+    <!--        >Limpieza</span-->
+    <!--      >-->
+    <!--      <span *ngIf="so?.businessService?.service?.category === 'Accident'" class="badge badge-pill badge-danger float-left"-->
+    <!--        >Accidente vehicular</span-->
+    <!--      >-->
+  </li>
+</ng-template>

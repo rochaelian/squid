@@ -1,0 +1,349 @@
+<div class="wrapper wrapper-full-page">
+  <div class="full-page section-image" filter-color="black">
+    <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+    <div class="content">
+      <div class="container">
+        <div class="col-lg-8 col-md-8 ml-auto mr-auto">
+          <div class="alert alert-success" *ngIf="success">
+            <strong>¡Usuario registrado correctamente!</strong> Por favor revisar correo de confirmación.
+          </div>
+
+          <div class="alert alert-danger" *ngIf="error"><strong>El registro ha fallado.</strong> Por favor intentarlo nuevamente .</div>
+
+          <div class="alert alert-danger" *ngIf="errorUserExists">
+            <strong>¡El nombre de usuario ya ha sido registrado!</strong> Por favor elegir un nombre de usuario diferente.
+          </div>
+
+          <div class="alert alert-danger" *ngIf="errorEmailExists">
+            <strong>¡El correo ya ha sido registrado!</strong> Por favor elegir un correo electrónico diferente.
+          </div>
+
+          <div class="alert alert-danger" *ngIf="doNotMatch">¡Las dos contraseñas no coinciden!</div>
+
+          <form class="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
+            <div class="card card-login">
+              <div class="card-header">
+                <div class="card-header">
+                  <h3 class="header text-center">Registro</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                      <label>Nombre de Usuario</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-single-02"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="username"
+                          id="login"
+                          name="login"
+                          formControlName="login"
+                          data-cy="username"
+                          #login
+                          (focus)="focus = true"
+                          (blur)="focus = false"
+                        />
+                      </div>
+                      <div
+                        *ngIf="
+                          registerForm.get('login')!.invalid && (registerForm.get('login')!.dirty || registerForm.get('login')!.touched)
+                        "
+                      >
+                        <small class="form-text text-danger" *ngIf="registerForm.get('login')?.errors?.required">
+                          El nombre de usuario es requerido.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="registerForm.get('login')?.errors?.minlength">
+                          El nombre de usuario debe tener al menos un caracter.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="registerForm.get('login')?.errors?.maxlength">
+                          El nombre de usuario no puede exceder 50 caracteres.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="registerForm.get('login')?.errors?.pattern">
+                          El nombre de usuario solo puede contener letras o números.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 pl-1">
+                    <div class="form-group">
+                      <label class="form-control-label" for="email">Email</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus1 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-email-85"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="username"
+                          id="email"
+                          name="email"
+                          formControlName="email"
+                          data-cy="email"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                      <label>Nombre</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus2 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-single-02"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="firstName"
+                          name="firstName"
+                          formControlName="firstName"
+                          data-cy="firstName"
+                          (focus)="focus2 = true"
+                          (blur)="focus2 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 pl-1">
+                    <div class="form-group">
+                      <label>Apellido</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus3 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-single-02"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="lastName"
+                          name="lastName"
+                          formControlName="lastName"
+                          data-cy="lastName"
+                          (focus)="focus3 = true"
+                          (blur)="focus3 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                      <label>Identificación</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus4 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-alert-circle-i"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="identification"
+                          name="identification"
+                          formControlName="identification"
+                          data-cy="identification"
+                          (focus)="focus4 = true"
+                          (blur)="focus4 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 pl-1">
+                    <div class="form-group">
+                      <label>Número Telefónico</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus5 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-mobile"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="phone"
+                          name="phone"
+                          formControlName="phone"
+                          data-cy="phone"
+                          (focus)="focus5 = true"
+                          (blur)="focus5 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                      <label class="form-control-label" for="password">Contraseña</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus7 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-key-25"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="password"
+                          name="password"
+                          formControlName="password"
+                          data-cy="firstPassword"
+                          (focus)="focus7 = true"
+                          (blur)="focus7 = false"
+                        />
+                      </div>
+
+                      <div
+                        *ngIf="
+                          registerForm.get('password')!.invalid &&
+                          (registerForm.get('password')!.dirty || registerForm.get('password')!.touched)
+                        "
+                      >
+                        <small class="form-text text-danger" *ngIf="registerForm.get('password')?.errors?.required">
+                          El password es requerido.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="registerForm.get('password')?.errors?.minlength">
+                          El password debe contener al menos 8 caracteres.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="registerForm.get('password')?.errors?.maxlength">
+                          El password no puede contener más de 50 carácteres.
+                        </small>
+                        <small class="form-text text-danger" *ngIf="registerForm.get('password')?.errors?.pattern">
+                          El password debe contener al menos una letra en mayúscula, una letra en minúscula y un número.
+                        </small>
+                      </div>
+                      <jhi-password-strength-bar [passwordToCheck]="registerForm.get('password')!.value"></jhi-password-strength-bar>
+                    </div>
+                  </div>
+                  <div class="col-md-6 pl-1">
+                    <div class="form-group">
+                      <label class="form-control-label" for="confirmPassword">Confirmar Contraseña</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus8 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-key-25"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="confirmPassword"
+                          name="confirmPassword"
+                          formControlName="confirmPassword"
+                          data-cy="secondPassword"
+                          (focus)="focus8 = true"
+                          (blur)="focus8 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                      <label>Fecha de Nacimiento</label>
+                      <div class="input-group" [ngClass]="{ 'input-group-focus': focus7 === true }">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-calendar-60"></i>
+                          </span>
+                        </div>
+                        <input
+                          (ngModelChange)="underAgeValidator($event)"
+                          ngbDatepicker
+                          #d="ngbDatepicker"
+                          (click)="d.toggle()"
+                          class="form-control"
+                          id="birthdate"
+                          name="birthdate"
+                          formControlName="birthdate"
+                          data-cy="birthdate"
+                        />
+                      </div>
+
+                      <div>
+                        <small
+                          class="form-text text-danger"
+                          *ngIf="
+                            registerForm.get('birthdate')?.errors?.required &&
+                            registerForm.get('birthdate')!.invalid &&
+                            (registerForm.get('birthdate')!.dirty || registerForm.get('birthdate')!.touched)
+                          "
+                        >
+                          Debe ingresar fecha de nacimiento.
+                        </small>
+                        <small class="form-text text-danger" *ngIf="errorUnderAge">
+                          Debe ser mayor de edad para utilizar la aplicación.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 pl-1">
+                    <div class="form-group">
+                      <label class="form-control-label" for="authorities">Tipo de usuario</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="nc-icon nc-badge"></i>
+                          </span>
+                        </div>
+                        <select
+                          class="form-control"
+                          id="authorities"
+                          name="authorities"
+                          formControlName="authorities"
+                          data-cy="authorities"
+                        >
+                          <option value="ROLE_BUSINESS_ADMIN">Dueño de comercio</option>
+                          <option value="ROLE_USER">Consumidor</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <br />
+              </div>
+              <div class="card-footer">
+                <a>
+                  <button
+                    type="submit"
+                    [disabled]="registerForm.invalid || isLoading || errorUnderAge"
+                    class="btn btn-primary btn-round btn-block mb-3"
+                    data-cy="submit"
+                  >
+                    <fa-icon icon="sync" *ngIf="isLoading" [spin]="isLoading"></fa-icon>
+                    Registrar
+                  </button>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="full-page-background" style="background-image: url('./content/images/workshop-background.jpg')"></div>
+  </div>
+</div>

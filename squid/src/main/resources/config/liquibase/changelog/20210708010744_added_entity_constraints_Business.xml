@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Business.
+    -->
+    <changeSet id="20210708010744-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="business"
+                                 constraintName="fk_business__location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location"/>
+
+        <addForeignKeyConstraint baseColumnNames="owner_id"
+                                 baseTableName="business"
+                                 constraintName="fk_business__owner_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="business_id"
+                                 baseTableName="rel_business__catalog"
+                                 constraintName="fk_rel_business__catalog__business_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="business"/>
+
+        <addForeignKeyConstraint baseColumnNames="catalog_id"
+                                 baseTableName="rel_business__catalog"
+                                 constraintName="fk_rel_business__catalog__catalog_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="catalog"/>
+    </changeSet>
+</databaseChangeLog>

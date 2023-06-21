@@ -1,0 +1,219 @@
+
+
+
+entity UserDetails {
+	//Email String,
+	Identification String,
+    //FirstName String,
+    //LastName String,
+    Phone String,
+    //Role --> Role
+    //Photograph --> Files
+    Status Status
+}
+
+entity Business {
+	//Id
+    Identification String,
+    Name String,
+    TaxRegime String,
+    Category String,
+    Rating Double,
+    Status Status,
+    //Owner -->User.Id
+    Capacity Integer,
+    Image String
+}
+
+entity Vehicle {
+	//Id
+    //Owner --> User
+    //Type --> Catalog
+    //Brand  --> Catalog
+	Plate String,
+    Year String,
+    RTV LocalDate,
+    //MotorType --> Catalog
+    //Insurer --> Catalog
+    Status Status
+}
+
+entity Location {
+	//Id
+    //Business --> Business
+	Province String,
+    Canton String,
+    District String,
+    Latitud String,
+    Longitude String,
+    ExactLocation String
+}
+
+entity Schedule {
+	//Id
+    //Business --> Business
+	Day String,
+    StartTime ZonedDateTime,
+    EndTime ZonedDateTime,
+    IsSpecial Boolean,
+    SpecialDate LocalDate
+}
+
+entity Catalog {
+	//Id
+	Name String,
+    Type String,
+    Status Status
+}
+
+//Entity below is created by JHipster
+//entity InsurerBusiness
+
+entity File {
+	//Id
+    URL String,
+    BLOB Blob,
+    //Business --> Business
+    //Order
+    //ServiceOrder
+}
+
+entity SeoRecord{
+	//Id
+    //Business
+    Date LocalDate,
+    Cost Double,
+    Status Status
+}
+
+entity Transaction {
+	//Id
+    //Business --> Business
+    //User --> UserDetails
+    //Order -->Order
+	CardNumber String,
+    Cost Double
+}
+
+entity CatService {
+	//Id
+	Name String,
+    Status Status,
+    Category String
+    //Business --> Business
+}
+
+
+entity APP {
+	//Id
+    Type Integer,
+    Income Double,
+    Comission Double,
+    SEOCost Double
+}
+
+entity Order {
+	//Id
+	StartDate ZonedDateTime,
+    EndDate ZonedDateTime,
+    //Vehicle
+    //Operator --> User
+    //Status --> Catalog
+    TotalCost Double,
+    Comission Double
+}
+
+entity OrderRating{
+	//Id
+    //Order
+    Rating Integer,
+    Comment String
+}
+
+entity ServiceOrder {
+	//Id
+    //Order
+    //BusinessService
+	//Status --> Catalog
+    StartDate LocalDate,
+    EndDate LocalDate,
+    Deductible Double,
+    UpdatedCost Double,
+    Comment String
+}
+
+entity BusinessService{
+	//Id
+    //Business -->Business
+    //Service--> CatService
+    Price Double,
+    Duration Integer
+}
+
+enum Status {
+	Pending, Enabled, Disabled
+}
+
+/**
+*Relationships
+*/
+//User related
+relationship OneToOne{
+	UserDetails{internalUser} to User,
+    UserDetails{photograph(URL)} to File
+}
+
+
+//Vehicle related
+relationship ManyToOne {
+	Vehicle{User} to User{Vehicle(Plate)},
+	Vehicle{Insurer(Name)} to Catalog,
+	Vehicle{MotorType(Name)} to Catalog,
+    Vehicle{VehicleType(Name)} to Catalog,
+    Vehicle{Brand(Name)} to Catalog
+}
+
+//Business related
+relationship ManyToOne {
+    Business{Owner} to User,
+    Schedule{Business(Name)} to Business,
+    SeoRecord{Business(Name)} to Business,
+    UserDetails{Business(Name)} to Business,
+    BusinessService{Business(Name)} to Business,
+    CatService{Business(Name)} to Business
+}
+relationship OneToOne{
+    Business{location} to Location
+}
+relationship ManyToMany {
+	Business to Catalog
+}
+
+//Order-Transaction related
+relationship ManyToOne{
+	//Transaction related
+	Transaction{Source} to User,
+	Transaction{Destination(Name)} to Business,
+    Transaction{Order} to Order{transaction},
+    //Order related
+    Order{Vehicle(Plate)} to Vehicle{order},
+    Order{Operator} to User,
+    Order{Business(Name)} to Business,
+    Order{Status(Name)} to Catalog,
+    //Service order related
+    ServiceOrder{Status(Name)} to Catalog,
+    ServiceOrder{Order} to Order,
+    ServiceOrder{BusinessService} to BusinessService,
+    BusinessService{Service} to CatService,
+    //Order photographs
+    File to Order,
+    File to ServiceOrder
+}
+//Order related
+relationship OneToOne{
+	OrderRating to Order
+}
+
+
+
+

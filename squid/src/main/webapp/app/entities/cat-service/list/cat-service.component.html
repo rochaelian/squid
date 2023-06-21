@@ -1,0 +1,77 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h4 id="page-heading" data-cy="CatServiceHeading">
+              <span>Servicios definidos por el sistema</span>
+            </h4>
+
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+                <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+              </button>
+
+              <button
+                id="jh-create-entity"
+                data-cy="entityCreateButton"
+                class="btn btn-primary jh-create-entity create-cat-service"
+                [routerLink]="['/cat-service/new']"
+              >
+                <fa-icon icon="plus"></fa-icon>
+              </button>
+            </div>
+
+            <div class="alert alert-warning" id="no-result" *ngIf="catServices?.length === 0">
+              <span>No se encontraron servicios</span>
+            </div>
+
+            <div class="table-responsive" id="entities" *ngIf="catServices && catServices.length > 0">
+              <table class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                  <tr>
+                    <th [hidden]="true" scope="col"><span>ID</span></th>
+                    <th scope="col"><span>Nombre</span></th>
+                    <th scope="col"><span>Categoría</span></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let catService of catServices; trackBy: trackId" data-cy="entityTable">
+                    <td [hidden]="true">
+                      <a [routerLink]="['/cat-service', catService.id, 'view']">{{ catService.id }}</a>
+                    </td>
+                    <td>{{ catService.name }}</td>
+
+                    <td>
+                      <div id="catcategory" [ngSwitch]="catService.category">
+                        <span *ngSwitchCase="'Preventive'" class="d-none d-md-inline">Mantenimiento preventivo</span>
+                        <span *ngSwitchCase="'Mechanics'" class="d-none d-md-inline">Mecánica rápida</span>
+                        <span *ngSwitchCase="'Cleaning'" class="d-none d-md-inline">Limpieza</span>
+                        <span *ngSwitchCase="'Accident'" class="d-none d-md-inline">Accidente</span>
+                      </div>
+                    </td>
+
+                    <td class="text-right">
+                      <div class="btn-group">
+                        <button
+                          type="submit"
+                          [routerLink]="['/cat-service', catService.id, 'edit']"
+                          class="btn btn-primary btn-sm"
+                          data-cy="entityEditButton"
+                        >
+                          <fa-icon icon="pencil-alt"></fa-icon>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

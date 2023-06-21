@@ -1,0 +1,23 @@
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <a class="simple-text logo-mini">
+      <div class="logo-image-small">
+        <img src="./content/images/Logo-medium.png" />
+      </div>
+    </a>
+    <a routerLink="/user-profile" class="simple-text logo-normal" *jhiHasAnyAuthority="'ROLE_USER'"> Squid</a>
+    <a routerLink="/user-profile" class="simple-text logo-normal" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administrador</a>
+    <a routerLink="/user-profile" class="simple-text logo-normal" *jhiHasAnyAuthority="'ROLE_OPERATOR'">Operador</a>
+    <a routerLink="/user-profile" class="simple-text logo-normal" *jhiHasAnyAuthority="'ROLE_BUSINESS_ADMIN'"
+      >Administrador <br />de Comercio</a
+    >
+  </div>
+  <ul class="nav">
+    <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{ menuItem.class }}">
+      <a *jhiHasAnyAuthority="menuItem.authorities" [routerLink]="[menuItem.path]">
+        <i class="nc-icon {{ menuItem.icon }}"></i>
+        <p>{{ menuItem.title }}</p>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,79 @@
+{
+  "name": "Order",
+  "fields": [
+    {
+      "fieldName": "startDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "totalCost",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "comission",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "vehicle",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "vehicle",
+      "otherEntityField": "plate"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "operator"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "business",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "business",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "catalog",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "status",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "orderRating",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "orderRating",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "transaction",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "transaction"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "file",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "file"
+    }
+  ],
+  "entityTableName": "jhi_order",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210708010754"
+}

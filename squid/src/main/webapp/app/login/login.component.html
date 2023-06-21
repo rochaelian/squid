@@ -1,0 +1,87 @@
+<div class="wrapper wrapper-full-page">
+  <div class="full-page section-image" filter-color="black">
+    <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+    <div class="content">
+      <div class="container">
+        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+          <div class="alert alert-danger" *ngIf="authenticationError" data-cy="loginError">
+            <strong>Error al iniciar sesión!</strong> Por favor revisar las credenciales e intentar de nuevo.
+          </div>
+          <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+            <div class="card card-login">
+              <div class="card-header">
+                <div class="card-header">
+                  <h3 class="header text-center">Iniciar sesión</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="input-group" [ngClass]="{ 'input-group-focus': focus === true }">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="nc-icon nc-single-02"></i>
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    id="username"
+                    formControlName="username"
+                    #username
+                    data-cy="username"
+                    placeholder="Nombre de usuario"
+                    (focus)="focus = true"
+                    (blur)="focus = false"
+                  />
+                </div>
+                <div class="input-group" [ngClass]="{ 'input-group-focus': focus1 === true }">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="nc-icon nc-key-25"></i>
+                    </span>
+                  </div>
+                  <input
+                    type="password"
+                    placeholder="Contraseña"
+                    class="form-control"
+                    (focus)="focus1 = true"
+                    (blur)="focus1 = false"
+                    name="password"
+                    id="password"
+                    formControlName="password"
+                    data-cy="password"
+                  />
+                </div>
+                <br />
+                <div class="form-group">
+                  <div class="form-check">
+                    <label class="form-check-label" for="rememberMe">
+                      <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" formControlName="rememberMe" />
+                      <span class="form-check-sign"></span>
+                      Recordarme
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <a>
+                  <button type="submit" class="btn btn-warning btn-round btn-block mb-3" data-cy="submit" [disabled]="isLoading">
+                    <fa-icon icon="sync" *ngIf="isLoading" [spin]="isLoading"></fa-icon>
+                    <span></span>Iniciar Sesión
+                  </button>
+                </a>
+              </div>
+            </div>
+            <a>
+              <button routerLink="/account/register" class="btn btn-primary btn-round">Registrarme</button>
+            </a>
+            <a>
+              <button class="btn btn-default btn-round float-right" routerLink="/account/reset/request">Olvidé Contraseña</button>
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="full-page-background" style="background-image: url('./content/images/workshop-background.jpg')"></div>
+  </div>
+</div>

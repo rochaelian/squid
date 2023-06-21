@@ -1,0 +1,143 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5 col-md-4">
+              <div class="icon-big text-center icon-warning">
+                <i class="nc-icon nc-paper text-warning"></i>
+              </div>
+            </div>
+            <div class="col-7 col-md-8">
+              <div class="numbers">
+                <p class="card-category">Total de órdenes</p>
+                <p class="card-title">{{ cantOrders }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <hr />
+          <div class="stats"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5 col-md-4">
+              <div class="icon-big text-center icon-warning">
+                <i class="nc-icon nc-money-coins text-success"></i>
+              </div>
+            </div>
+            <div class="col-7 col-md-8">
+              <div class="numbers">
+                <p class="card-category">Ganancias totales</p>
+                <p class="card-title">₡ {{ revenue }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <hr />
+          <div class="stats"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2 col-md-2">
+              <div class="icon-big text-center icon-warning">
+                <i class="nc-icon nc-briefcase-24 text-danger"></i>
+              </div>
+            </div>
+            <div class="col-10 col-md-10">
+              <div class="numbers">
+                <p class="card-category">Comercio más rentable</p>
+                <p class="cat-text">{{ businessMoreProductive }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <hr />
+          <div class="stats"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5 col-md-4">
+              <div class="icon-big text-center icon-warning">
+                <i class="nc-icon nc-favourite-28 text-primary"></i>
+              </div>
+            </div>
+            <div class="col-7 col-md-8">
+              <div class="numbers">
+                <p class="card-category">Calificación</p>
+                <p class="card-title">{{ ratingTotal }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <hr />
+          <div class="stats"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Ganancias por comercio</h4>
+          <p class="card-category">Todos mis comercios</p>
+          <div class="alert alert-warning" id="no-result" *ngIf="ordersByBusiness?.length === 0">
+            <span>No existen datos registradas</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Comercio</th>
+                      <th class="text-left">Cantidad de órdenes</th>
+                      <th>Ganancias</th>
+                      <th>Calificación</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let infoBus of ordersByBusiness">
+                      <td class="img-row">
+                        <div class="img-wrapper">
+                          <img src="{{ infoBus.image }}" class="avatar border-gray" />
+                        </div>
+                      </td>
+                      <td>{{ infoBus.name }}</td>
+                      <td class="text-cantOrders">{{ infoBus.cantOrders }}</td>
+                      <td>₡{{ infoBus.revenue }}</td>
+                      <td>{{ infoBus.rating }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

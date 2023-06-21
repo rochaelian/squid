@@ -1,0 +1,53 @@
+<div class="main-content">
+  <div class="row justify-content-center">
+    <div class="col-md-7">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">SEO</h4>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            </button>
+          </div>
+          <div class="alert alert-warning" id="no-result" *ngIf="seoRecords?.length === 0">
+            <span>No existen SEO registrados</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" id="entities" *ngIf="seoRecords && seoRecords.length > 0">
+            <table class="table" aria-describedby="page-heading">
+              <thead>
+                <tr>
+                  <th [hidden]="true">ID</th>
+                  <th>Fecha</th>
+                  <th>Costo</th>
+                  <th>Estado</th>
+                  <th>Comercio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let seoRecord of seoRecords; trackBy: trackId" data-cy="entityTable">
+                  <td [hidden]="true">
+                    <a [routerLink]="['/seo-record', seoRecord.id, 'view']">{{ seoRecord.id }}</a>
+                  </td>
+                  <td>{{ seoRecord.date | formatMediumDate }}</td>
+                  <td>₡{{ seoRecord.cost }}</td>
+                  <td>
+                    <div *ngIf="seoRecord.status === 'Disabled'">Desabilitado</div>
+                    <div *ngIf="seoRecord.status === 'Pending'">Pendiente</div>
+                    <div *ngIf="seoRecord.status === 'Enabled'">Habilitado</div>
+                  </td>
+                  <td>
+                    <div *ngIf="seoRecord.business">
+                      {{ seoRecord.business?.name }}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

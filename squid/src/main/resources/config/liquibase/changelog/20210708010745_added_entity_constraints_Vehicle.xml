@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Vehicle.
+    -->
+    <changeSet id="20210708010745-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="vehicle"
+                                 constraintName="fk_vehicle__user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="insurer_id"
+                                 baseTableName="vehicle"
+                                 constraintName="fk_vehicle__insurer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="catalog"/>
+
+        <addForeignKeyConstraint baseColumnNames="motor_type_id"
+                                 baseTableName="vehicle"
+                                 constraintName="fk_vehicle__motor_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="catalog"/>
+
+        <addForeignKeyConstraint baseColumnNames="vehicle_type_id"
+                                 baseTableName="vehicle"
+                                 constraintName="fk_vehicle__vehicle_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="catalog"/>
+
+        <addForeignKeyConstraint baseColumnNames="brand_id"
+                                 baseTableName="vehicle"
+                                 constraintName="fk_vehicle__brand_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="catalog"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,99 @@
+<div>
+  <div class="form-group">
+    <div class="btn-group">
+      <button id="tallerBtn" class="btn btn-primary btn-link" (click)="loadCategory('Taller')">Ver solamente talleres</button>
+      <button class="btn btn-primary btn-link" (click)="loadCategory('Lavacar')">Ver solamente lavaderos de auto</button>
+      <button class="btn btn-primary btn-link" (click)="loadAll()">Ver todos</button>
+    </div>
+
+    <input type="text" class="form-control" name="busFilter" placeholder="Buscar por nombre..." [(ngModel)]="busFilter" />
+
+    <div class="btn-group">
+      <div class="dropdown">
+        <button
+          class="dropdown-toggle btn btn-primary btn-round btn-block"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Ver por ubicación
+        </button>
+        <div class="dropdown-menu dropdown-menuService dropdown-menu-right btn-primary">
+          <div class="dropdown-header">Elija una provincia</div>
+          <a class="dropdown-item" (click)="loadProvince('San José')">San José</a>
+          <a class="dropdown-item" (click)="loadProvince('Alajuela')">Alajuela</a>
+          <a class="dropdown-item" (click)="loadProvince('Cartago')">Cartago</a>
+          <a class="dropdown-item" (click)="loadProvince('Heredia')">Heredia</a>
+          <a class="dropdown-item" (click)="loadProvince('Guanacaste')">Guanacaste</a>
+          <a class="dropdown-item" (click)="loadProvince('Puntarenas')">Puntarenas</a>
+          <a class="dropdown-item" (click)="loadProvince('Limón')">Limón</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button
+          class="dropdown-toggle btn btn-primary btn-round btn-block"
+          type="button"
+          id="dropdownService"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Ver por servicio
+        </button>
+        <div class="dropdown-menu dropdown-menu-right btn-primary" id="dropServices">
+          <div class="dropdown-header">Elija una servicio</div>
+          <a
+            class="dropdown-item"
+            *ngFor="let businesCatalogOption of catalogServiceSharedCollection"
+            (click)="loadService(businesCatalogOption.id)"
+            >{{ businesCatalogOption.name }}</a
+          >
+        </div>
+      </div>
+    </div>
+    <! –– Fin del div de dropdowns -->
+  </div>
+  <! –– Fin del input con botones -->
+
+  <div id="no-result" *ngIf="businesses?.length === 0">
+    <span>No hay comercios registrados</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="businesses && businesses.length > 0">
+    <div class="row">
+      <div class="col-lg-4 col-md-6" *ngFor="let business of businesses | busPipe: busFilter; trackBy: trackId" data-cy="entityTable">
+        <div id="businessCard" class="card mb-3" (click)="profileBusiness(business.id)">
+          <div class="card-body">
+            <h5 class="card-title">{{ business.name }}</h5>
+            <h6 class="card-subtitle text-muted">
+              <span class="badge bg-warning">{{ business.category }}</span>
+            </h6>
+          </div>
+          <div class="embed-responsive embed-responsive-16by9">
+            <img class="card-img-top embed-responsive-item" src="{{ business.image }}" alt="services-img" />
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-geo-alt-fill"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+              </svg>
+              {{ business.location?.district }}, {{ business.location?.canton }}, {{ business.location?.province }}
+            </li>
+            <li class="list-group-item">
+              <ngb-rating [rate]="business.rating"></ngb-rating>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,150 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-service-order-heading" data-cy="ServiceOrderCreateUpdateHeading">Create or edit a Service Order</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_startDate">Start Date</label>
+          <div class="input-group">
+            <input
+              id="field_startDate"
+              data-cy="startDate"
+              type="text"
+              class="form-control"
+              name="startDate"
+              ngbDatepicker
+              #startDateDp="ngbDatepicker"
+              formControlName="startDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_endDate">End Date</label>
+          <div class="input-group">
+            <input
+              id="field_endDate"
+              data-cy="endDate"
+              type="text"
+              class="form-control"
+              name="endDate"
+              ngbDatepicker
+              #endDateDp="ngbDatepicker"
+              formControlName="endDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="endDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_deductible">Deductible</label>
+          <input
+            type="number"
+            class="form-control"
+            name="deductible"
+            id="field_deductible"
+            data-cy="deductible"
+            formControlName="deductible"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_updatedCost">Updated Cost</label>
+          <input
+            type="number"
+            class="form-control"
+            name="updatedCost"
+            id="field_updatedCost"
+            data-cy="updatedCost"
+            formControlName="updatedCost"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_comment">Comment</label>
+          <input type="text" class="form-control" name="comment" id="field_comment" data-cy="comment" formControlName="comment" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_status">Status</label>
+          <select class="form-control" id="field_status" data-cy="status" name="status" formControlName="status">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="catalogOption.id === editForm.get('status')!.value?.id ? editForm.get('status')!.value : catalogOption"
+              *ngFor="let catalogOption of catalogsSharedCollection; trackBy: trackCatalogById"
+            >
+              {{ catalogOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_order">Order</label>
+          <select class="form-control" id="field_order" data-cy="order" name="order" formControlName="order">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="orderOption.id === editForm.get('order')!.value?.id ? editForm.get('order')!.value : orderOption"
+              *ngFor="let orderOption of ordersSharedCollection; trackBy: trackOrderById"
+            >
+              {{ orderOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_businessService">Business Service</label>
+          <select
+            class="form-control"
+            id="field_businessService"
+            data-cy="businessService"
+            name="businessService"
+            formControlName="businessService"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                businessServiceOption.id === editForm.get('businessService')!.value?.id
+                  ? editForm.get('businessService')!.value
+                  : businessServiceOption
+              "
+              *ngFor="let businessServiceOption of businessServicesSharedCollection; trackBy: trackBusinessServiceById"
+            >
+              {{ businessServiceOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

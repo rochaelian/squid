@@ -1,0 +1,38 @@
+{
+  "name": "File",
+  "fields": [
+    {
+      "fieldName": "uRL",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bLOB",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "order",
+      "otherEntityRelationshipName": "file",
+      "relationshipName": "order"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "serviceOrder",
+      "otherEntityRelationshipName": "file",
+      "relationshipName": "serviceOrder"
+    }
+  ],
+  "entityTableName": "file",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210708010749"
+}

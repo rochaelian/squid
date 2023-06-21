@@ -1,0 +1,44 @@
+{
+  "name": "Transaction",
+  "fields": [
+    {
+      "fieldName": "cardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cost",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "source"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "business",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "destination",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "order",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "order"
+    }
+  ],
+  "entityTableName": "transaction",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210708010751"
+}

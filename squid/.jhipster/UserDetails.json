@@ -1,0 +1,52 @@
+{
+  "name": "UserDetails",
+  "fields": [
+    {
+      "fieldName": "identification",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValues": "Pending,Enabled,Disabled"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "userDetails",
+      "relationshipName": "internalUser",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "file",
+      "otherEntityRelationshipName": "userDetails",
+      "relationshipName": "photograph",
+      "otherEntityField": "uRL",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "business",
+      "otherEntityRelationshipName": "userDetails",
+      "relationshipName": "business",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityTableName": "user_details",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210708010743"
+}

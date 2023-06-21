@@ -1,0 +1,122 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="user-management-page-heading" data-cy="userManagementPageHeading">Usuarios</h4>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" *ngIf="users">
+            <table class="table" aria-describedby="user-management-page-heading">
+              <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="transition.bind(this)">
+                  <th scope="col" jhiSortBy="id">
+                    <span>ID</span>
+                    <fa-icon icon="sort"></fa-icon>
+                  </th>
+                  <th scope="col" jhiSortBy="login">
+                    <span>Nombre de Usuario</span>
+                    <fa-icon icon="sort"></fa-icon>
+                  </th>
+                  <th scope="col" jhiSortBy="email">
+                    <span>Correo Electrónico</span>
+                    <fa-icon icon="sort"></fa-icon>
+                  </th>
+                  <th scope="col">Estado</th>
+                  <th scope="col"><span>Tipo de Usuario</span></th>
+                  <th scope="col" jhiSortBy="createdDate">
+                    <span>Fecha de Registro</span>
+                    <fa-icon icon="sort"></fa-icon>
+                  </th>
+                  <!--          <th scope="col" jhiSortBy="lastModifiedBy"><span>Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>-->
+                  <!--          <th scope="col" jhiSortBy="lastModifiedDate"><span>Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>-->
+                  <!--          <th scope="col"></th>-->
+                </tr>
+              </thead>
+              <tbody *ngIf="users">
+                <tr *ngFor="let user of users; trackBy: trackIdentity">
+                  <td>
+                    <!--            Commenting as will plan to redirect to profile later-->
+                    <!--            <a [routerLink]="['./', user.login, 'view']">{{ user.id }}</a>-->
+                    <a>{{ user.id }}</a>
+                  </td>
+                  <td>{{ user.login }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>
+                    <div *ngIf="user.activated; else showDos">
+                      <bSwitch
+                        [switch-readonly]="!currentAccount || currentAccount.login === user.login"
+                        [switch-on-color]="'success'"
+                        [switch-off-color]="'primary'"
+                        [switch-off-text]="' '"
+                        [switch-on-text]="' '"
+                        ngModel="true"
+                        (changeState)="setActive(user, false)"
+                      ></bSwitch>
+                    </div>
+                    <ng-template #showDos>
+                      <bSwitch
+                        [switch-readonly]="!currentAccount || currentAccount.login === user.login"
+                        [switch-on-color]="'primary'"
+                        [switch-off-color]="'primary'"
+                        [switch-off-text]="' '"
+                        [switch-on-text]="' '"
+                        (changeState)="setActive(user, true)"
+                      ></bSwitch>
+                    </ng-template>
+                  </td>
+                  <td>
+                    <div *ngFor="let authority of user.authorities">
+                      <span class="badge badge-info" *ngIf="authority === 'ROLE_ADMIN'">Administrador</span>
+                      <span class="badge badge-info" *ngIf="authority === 'ROLE_BUSINESS_ADMIN'">Administrador de Comercio</span>
+                      <span class="badge badge-info" *ngIf="authority === 'ROLE_OPERATOR'">Operador</span>
+                      <span class="badge badge-info" *ngIf="authority === 'ROLE_USER'">Usuario</span>
+                    </div>
+                  </td>
+                  <td>{{ user.createdDate | date: 'dd/MM/yy HH:mm' }}</td>
+                  <!--          <td>{{ user.lastModifiedBy }}</td>-->
+                  <!--          <td>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</td>-->
+                  <td class="text-right">
+                    <div class="btn-group">
+                      <!--              <button type="submit" [routerLink]="['./', user.login, 'view']" class="btn btn-info btn-sm">-->
+                      <!--                <fa-icon icon="eye"></fa-icon>-->
+                      <!--              </button>-->
+
+                      <!--              <button type="submit" [routerLink]="['./', user.login, 'edit']" queryParamsHandling="merge" class="btn btn-primary btn-sm">-->
+                      <!--                <fa-icon icon="pencil-alt"></fa-icon>-->
+                      <!--                <span class="d-none d-md-inline">Edit</span>-->
+                      <!--              </button>-->
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="users">
+            <div class="row justify-content-center">
+              <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+            </div>
+
+            <div class="row justify-content-center">
+              <ngb-pagination
+                [collectionSize]="totalItems"
+                [(page)]="page"
+                [pageSize]="itemsPerPage"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                (pageChange)="transition()"
+              ></ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

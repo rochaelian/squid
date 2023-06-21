@@ -1,0 +1,35 @@
+.btn-primary {
+  color: #ffffff;
+  background-color: #021730;
+  border-color: #021730;
+
+  &:hover,
+  &:focus,
+  &.disabled:hover,
+  &.disabled:focus {
+    color: #021730;
+    background-color: #ffffff;
+    border-color: #021730;
+  }
+  &:not(:disabled):not(.disabled).active,
+  &:not(:disabled):not(.disabled):active {
+    color: #ffffff;
+    background-color: #021730;
+    border-color: #021730;
+  }
+  &:not(:disabled):not(.disabled).active:focus,
+  &:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+  }
+  &.focus,
+  &:focus {
+    box-shadow: none;
+  }
+  &.disabled,
+  &:disabled {
+    color: #ffffff;
+    background-color: #021730;
+    border-color: #021730;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,166 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card card-user">
+      <div class="card-header">
+        <h2 class="card-title" data-cy="BusinessCreateUpdateHeading">Servicios</h2>
+      </div>
+      <div class="card-body">
+        <form name="editForm" role="form" novalidate (ngSubmit)="saveFirstStep()" [formGroup]="editForm">
+          <div>
+            <div class="form-group" [hidden]="true">
+              <label class="form-control-label" for="field_id">ID</label>
+              <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_price">Precio</label>
+              <input min="1" type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
+              <div *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
+                <span class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required"> * El precio es requerido. </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_duration">Duración</label>
+              <select class="form-control" name="duration" id="field_duration" data-cy="duration" formControlName="duration">
+                <!--                <option value="0.5">30 minutos</option>-->
+                <option value="1">1 hora</option>
+                <!--                <option value="1.5">1 hora y 30 minutos</option>-->
+                <option value="2">2 horas</option>
+                <!--                <option value="2.5">2 horas y 30 minutos</option>-->
+                <option value="3">3 horas</option>
+                <!--                <option value="3.5">3 horas y 30 minutos</option>-->
+                <option value="4">4 horas</option>
+                <!--                <option value="4.5">4 horas y 30 minutos</option>-->
+                <option value="5">5 horas</option>
+                <!--                <option value="5.5">5 horas y 30 minutos</option>-->
+                <option value="6">6 horas</option>
+                <!--                <option value="6.5">6 horas y 30 minutos</option>-->
+                <option value="7">7 horas</option>
+                <!--                <option value="7.5">7 horas y 30 minutos</option>-->
+                <option value="8">8 horas</option>
+                <option value="16">2 días</option>
+                <option value="24">3 días</option>
+              </select>
+              <div *ngIf="editForm.get('duration')!.invalid && (editForm.get('duration')!.dirty || editForm.get('duration')!.touched)">
+                <span class="form-text text-danger" *ngIf="editForm.get('duration')?.errors?.required">
+                  * La duración es requerida, favor seleccione una opción.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group" [hidden]="hideBusinessSelect == true">
+              <label class="form-control-label" for="field_business_c">Comercio</label>
+              <select
+                class="form-control"
+                id="field_business_c"
+                data-cy="business"
+                name="business"
+                formControlName="business"
+                [(ngModel)]="selectedBusiness"
+                (change)="updateDisplayedServices()"
+              >
+                <option
+                  [ngValue]="businessOption.id === editForm.get('business')!.value?.id ? editForm.get('business')!.value : businessOption"
+                  *ngFor="let businessOption of myBusinesses; trackBy: trackBusinessById"
+                >
+                  {{ businessOption.name }}
+                </option>
+              </select>
+              <div *ngIf="editForm.get('business')!.invalid && (editForm.get('business')!.dirty || editForm.get('business')!.touched)">
+                <span class="form-text text-danger" *ngIf="editForm.get('business')?.errors?.required">
+                  * El comercio es requerido, favor seleccione una opción.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group" [hidden]="hideBusiness == true">
+              <label class="form-control-label" for="field_business">Comercio</label>
+              <input
+                type="text"
+                class="form-control"
+                name="business"
+                id="field_business"
+                data-cy="business"
+                formControlName="business"
+                [readonly]="true"
+              />
+            </div>
+
+            <div class="form-group" [hidden]="hideService == true">
+              <label class="form-control-label" for="field_service">Servicio</label>
+              <input
+                type="text"
+                class="form-control"
+                name="service"
+                id="field_service"
+                data-cy="service"
+                formControlName="service"
+                [readonly]="true"
+              />
+            </div>
+
+            <div class="form-group" [hidden]="hideServiceSelect == true">
+              <label class="form-control-label" for="field_service_c">Servicio</label>
+              <select class="form-control" id="field_service_c" data-cy="service" name="service" formControlName="service">
+                <option
+                  [ngValue]="catServiceOption.id === editForm.get('service')!.value?.id ? editForm.get('service')!.value : catServiceOption"
+                  *ngFor="let catServiceOption of catServicesSharedCollection; trackBy: trackCatServiceById"
+                  [ngSwitch]="catServiceOption.name"
+                >
+                  {{ catServiceOption.name }}
+                </option>
+              </select>
+
+              <button
+                type="button"
+                id="add"
+                data-cy="entityCreateCancelButton"
+                class="btn btn-primary btn-link"
+                (click)="createPersonalizedService()"
+              >
+                <i class="fas fa-plus"></i> Agregar servicio personalizado
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group" [hidden]="true">
+            <label class="form-control-label" for="field_id_cat">ID</label>
+            <input type="number" class="form-control" name="idCat" id="field_id_cat" data-cy="id" formControlName="idCat" />
+          </div>
+
+          <div class="form-group" [hidden]="hideName == true">
+            <label class="form-control-label" for="field_name">Nombre del servicio</label>
+            <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          </div>
+
+          <div class="form-group" [hidden]="hideCategory == true">
+            <label class="form-control-label" for="field_category">Categoría del servicio</label>
+            <select class="form-control" name="category" formControlName="category" id="field_category" data-cy="category">
+              <option value="Preventive">Mantenimientos preventivos</option>
+              <option value="Mechanics">Mecánica rápida</option>
+              <option value="Cleaning">Limpieza</option>
+              <option value="Accident">Accidente vehicular</option>
+            </select>
+          </div>
+
+          <div>
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+              <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+            </button>
+
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

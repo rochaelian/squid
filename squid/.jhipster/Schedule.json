@@ -1,0 +1,44 @@
+{
+  "name": "Schedule",
+  "fields": [
+    {
+      "fieldName": "day",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "isSpecial",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "specialDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "business",
+      "otherEntityRelationshipName": "schedule",
+      "relationshipName": "business",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityTableName": "schedule",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210708010747"
+}

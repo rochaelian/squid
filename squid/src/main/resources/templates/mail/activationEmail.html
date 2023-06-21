@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="es">
+  <head>
+    <title th:text="#{email.activation.title}">Activa tu cuenta de Squid.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+  </head>
+  <body>
+    <p th:text="#{email.activation.greeting(${user.login})}">Hola,</p>
+    <p th:text="#{email.activation.text1}">Su cuenta en Squid ha sido creada, favor abrir el siguiente enlace para activarla:</p>
+    <p>
+      <a th:with="url=(@{|${baseUrl}/account/activate?key=${user.activationKey}|})" th:href="${url}" th:text="${url}">Link de activación</a>
+    </p>
+    <p>
+      <span th:text="#{email.activation.text2}">Gracias por ser parte de nosotros, </span>
+      <br />
+      <em th:text="#{email.signature}">Squid.</em>
+    </p>
+  </body>
+</html>

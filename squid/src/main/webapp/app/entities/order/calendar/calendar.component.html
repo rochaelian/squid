@@ -1,0 +1,22 @@
+<div class="control-section" *ngIf="dataLoad">
+  <ejs-schedule
+    width="100%"
+    height="550px"
+    [eventSettings]="eventObject"
+    [selectedDate]="setDate"
+    [currentView]="setView"
+    [startHour]="startHour"
+    [endHour]="endHour"
+    [showWeekend]="showWeekend"
+    [workDays]="workWeekDays"
+  >
+    <e-views>
+      <e-view option="Day" displayName="Día"></e-view>
+      <e-view option="Week" dateFormat="dd-MMM-yyyy" displayName="Semana"></e-view>
+      <e-view option="Month" displayName="Mes" [showWeekend]="showWeekend"></e-view>
+    </e-views>
+  </ejs-schedule>
+  <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-success" (click)="saveNewOrder()">
+    <fa-icon icon="check"></fa-icon>&nbsp;<span>Guardar cita</span>
+  </button>
+</div>

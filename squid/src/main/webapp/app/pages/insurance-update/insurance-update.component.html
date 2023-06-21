@@ -1,0 +1,263 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <form
+                style="margin-top: 50px"
+                *jhiHasAnyAuthority="'ROLE_OPERATOR'"
+                name="editForm"
+                role="form"
+                novalidate
+                (ngSubmit)="save()"
+                [formGroup]="editForm"
+              >
+                <h4 id="jhi-order-heading" data-cy="OrderCreateUpdateHeading">Ingresar datos del avalúo</h4>
+
+                <div class="blockquote">
+                  <!-- --- VEHÍCULO DE LA ORDEN --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_vehicle"><b>Vehículo:</b></label>
+                    <label class="form-control-label" id="field_vehicle">
+                      <div *ngIf="vehicle">
+                        {{ vehicle.plate }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <!-- --- COMERCIO DE LA ORDEN --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_business"><b>Taller autorizado:</b></label>
+                    <label class="form-control-label" id="field_business">
+                      <div *ngIf="business">
+                        {{ business.name }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <!-- --- El servicio por defecto --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_service"><b>Servicio autorizado:</b></label>
+                    <label class="form-control-label" id="field_service">{{ bussinessServiceName }}</label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_updatedCost">Costo de reparación</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="updatedCost"
+                      id="field_updatedCost"
+                      data-cy="updatedCost"
+                      formControlName="updatedCost"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_deductible">Deducible</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="deductible"
+                      id="field_deductible"
+                      data-cy="deductible"
+                      formControlName="deductible"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_comment">Comentario:</label>
+                    <input type="text" class="form-control" name="comment" id="field_comment" data-cy="comment" formControlName="comment" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_startDate">Start Date</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startDate"
+                        data-cy="startDate"
+                        type="datetime-local"
+                        class="form-control"
+                        name="startDate"
+                        formControlName="startDate"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_endDate">End Date</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endDate"
+                        data-cy="endDate"
+                        type="datetime-local"
+                        class="form-control"
+                        name="endDate"
+                        formControlName="endDate"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div>
+                      <label class="form-control-label">Cargar documento de avalúo</label>
+                      <ngx-dropzone (change)="soDropboxOnSelect($event)" style="margin: 20px">
+                        <ngx-dropzone-label>Cargar imagen!</ngx-dropzone-label>
+                        <ngx-dropzone-image-preview
+                          ngProjectAs="ngx-dropzone-preview"
+                          *ngFor="let f of dropZoneFiles"
+                          [file]="f"
+                          [file]="f"
+                        >
+                          <ngx-dropzone-label></ngx-dropzone-label>
+                        </ngx-dropzone-image-preview>
+                      </ngx-dropzone>
+                    </div>
+                  </div>
+                </div>
+                <!-- End of blockquote -->
+
+                <div>
+                  <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-danger">
+                    <span>Cancelar</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    id="save-entity"
+                    data-cy="entityCreateSaveButton"
+                    [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-success"
+                    class="btn btn-success"
+                  >
+                    <span>Enviar avalúo</span>
+                  </button>
+                </div>
+              </form>
+
+              <form
+                style="margin-top: 50px"
+                *jhiHasAnyAuthority="'ROLE_USER'"
+                name="editForm"
+                role="form"
+                novalidate
+                (ngSubmit)="save()"
+                [formGroup]="editForm"
+              >
+                <h4 data-cy="OrderCreateUpdateHeading">Datos de su avalúo</h4>
+
+                <div class="blockquote">
+                  <!-- --- VEHÍCULO DE LA ORDEN --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_vehicle"><b>Vehículo:</b></label>
+                    <label class="form-control-label" id="field_vehicle2">
+                      <div *ngIf="vehicle">
+                        {{ vehicle.plate }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <!-- --- COMERCIO DE LA ORDEN --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_business"><b>Taller autorizado:</b></label>
+                    <label class="form-control-label" id="field_business2">
+                      <div *ngIf="business">
+                        {{ business.name }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <!-- --- El servicio por defecto --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_service"><b>Servicio autorizado:</b></label>
+                    <label class="form-control-label" id="field_service2">{{ bussinessServiceName }}</label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_business"><b>Costo por reparación:</b></label>
+                    <label class="form-control-label" id="field_updatedCost2">
+                      <div *ngIf="serviceOfTheOrder">
+                        {{ serviceOfTheOrder.updatedCost }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_deductible2"><b>Deducible:</b></label>
+                    <label class="form-control-label" id="field_deductible2">
+                      <div *ngIf="serviceOfTheOrder">
+                        {{ serviceOfTheOrder.deductible }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="tpg"><b>Total a pagar:</b></label>
+                    <label class="form-control-label" id="tpg">
+                      <div *ngIf="orderAval">
+                        {{ orderAval.totalCost }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_comment"><b>Comentario del servicio:</b></label>
+                    <label class="form-control-label" id="field_comment2">
+                      <div *ngIf="serviceOfTheOrder">
+                        {{ serviceOfTheOrder.comment }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_fi"><b>Fecha de inicio:</b></label>
+                    <label class="form-control-label" id="field_fi">
+                      <div *ngIf="serviceOfTheOrder">
+                        {{ serviceOfTheOrder.startDate }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_fs"><b>Fecha de salida:</b></label>
+                    <label class="form-control-label" id="field_fs">
+                      <div *ngIf="serviceOfTheOrder">
+                        {{ serviceOfTheOrder.endDate }}
+                      </div> </label
+                    ><br />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_doc"><b>Documento de avalúo:</b></label>
+                    <br /><label class="form-control-label" id="field_doc">
+                      <div *ngIf="file">
+                        <a [href]="file.uRL">Ver documento aquí</a>
+                      </div> </label
+                    ><br />
+                  </div>
+                </div>
+                <!-- End of blockquote -->
+
+                <div *ngIf="orderAval">
+                  <button [routerLink]="['/insurance']" (click)="clearAval(orderAval.id)" class="btn btn-primary btn-sm">Atrás</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="seoRecord">
+      <h2 data-cy="seoRecordDetailsHeading"><span>Seo Record</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ seoRecord.id }}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+          <span>{{ seoRecord.date | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Cost</span></dt>
+        <dd>
+          <span>{{ seoRecord.cost }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ seoRecord.status }}</span>
+        </dd>
+        <dt><span>Business</span></dt>
+        <dd>
+          <div *ngIf="seoRecord.business">
+            <a [routerLink]="['/business', seoRecord.business?.id, 'view']">{{ seoRecord.business?.name }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/seo-record', seoRecord.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

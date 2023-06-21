@@ -1,0 +1,108 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Mis operadores</h4>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            </button>
+            <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
+              <fa-icon icon="plus"></fa-icon>
+              <span>Nuevo operador</span>
+            </button>
+          </div>
+
+          <jhi-alert-error></jhi-alert-error>
+
+          <jhi-alert></jhi-alert>
+
+          <div class="alert alert-warning" id="no-result" *ngIf="users?.length === 0">
+            <span>No posee operadores registrados.</span>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" id="entities" *ngIf="users && users.length > 0">
+              <table class="table">
+                <thead class="">
+                  <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="transition.bind(this)">
+                    <th scope="col" jhiSortBy="login">
+                      <span>Usuario</span>
+                      <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="email">
+                      <span>Correo electrónico</span>
+                      <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="firstName">
+                      <span>Nombre</span>
+                      <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="lastName">
+                      <span>Apellido</span>
+                      <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col">Estado</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="users">
+                  <ng-container *ngFor="let user of users">
+                    <tr *ngFor="let authority of user.authorities">
+                      <td>{{ user.login }}</td>
+                      <td>{{ user.email }}</td>
+                      <td>{{ user.firstName }}</td>
+                      <td>{{ user.lastName }}</td>
+                      <td>
+                        <!-- <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated">Deshabilitado</button>-->
+                        <bSwitch
+                          [switch-on-color]="'primary'"
+                          [switch-off-color]="'primary'"
+                          [switch-off-text]="' '"
+                          [switch-on-text]="' '"
+                          *ngIf="!user.activated"
+                          (click)="setActive(user, true)"
+                        ></bSwitch>
+                        <bSwitch
+                          [switch-on-color]="'success'"
+                          [switch-off-color]="'primary'"
+                          [switch-off-text]="' '"
+                          [switch-on-text]="' '"
+                          ngModel="true"
+                          *ngIf="user.activated"
+                          [disabled]="!currentAccount || currentAccount.login === user.login"
+                          (click)="setActive(user, false)"
+                        ></bSwitch>
+                        <!-- <button
+                          class="btn btn-success btn-sm"
+                          (click)="setActive(user, false)"
+                          *ngIf="user.activated"
+                          [disabled]="!currentAccount || currentAccount.login === user.login"
+                        >
+                          Habilitado
+                        </button>-->
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <button
+                            type="submit"
+                            [routerLink]="['./', user.login, 'edit']"
+                            queryParamsHandling="merge"
+                            class="btn btn-primary btn-sm"
+                          >
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline"></span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

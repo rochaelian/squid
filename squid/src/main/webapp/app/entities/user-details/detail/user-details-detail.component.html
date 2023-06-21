@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="userDetails">
+      <h2 data-cy="userDetailsDetailsHeading"><span>User Details</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ userDetails.id }}</span>
+        </dd>
+        <dt><span>Identification</span></dt>
+        <dd>
+          <span>{{ userDetails.identification }}</span>
+        </dd>
+        <dt><span>Phone</span></dt>
+        <dd>
+          <span>{{ userDetails.phone }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ userDetails.status }}</span>
+        </dd>
+        <dt><span>Internal User</span></dt>
+        <dd>
+          <span>{{ userDetails.internalUser?.id }}</span>
+        </dd>
+        <dt><span>Photograph</span></dt>
+        <dd>
+          <div *ngIf="userDetails.photograph">
+            <a [routerLink]="['/file', userDetails.photograph?.id, 'view']">{{ userDetails.photograph?.uRL }}</a>
+          </div>
+        </dd>
+        <dt><span>Business</span></dt>
+        <dd>
+          <div *ngIf="userDetails.business">
+            <a [routerLink]="['/business', userDetails.business?.id, 'view']">{{ userDetails.business?.name }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/user-details', userDetails.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

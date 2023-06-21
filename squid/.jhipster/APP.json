@@ -1,0 +1,32 @@
+{
+  "name": "APP",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "income",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "comission",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sEOCost",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "app",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210708010753"
+}

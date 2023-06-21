@@ -1,0 +1,91 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Órdenes</h4>
+          <div class="d-flex justify-content-end buttonsCreateBusiness">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            </button>
+          </div>
+
+          <div class="alert alert-warning" id="no-result" *ngIf="orders?.length === 0">
+            <span>No existen órdenes registradas</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" id="entities" *ngIf="orders && orders.length > 0">
+            <table class="table" aria-describedby="page-heading">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha y hora de inicio</th>
+                  <th>Fecha y hora final</th>
+                  <th>Costo total</th>
+                  <th [hidden]="rollAdmin !== true">Comisión</th>
+                  <th>Vehículo</th>
+                  <th>Operador</th>
+                  <th>Comercio</th>
+                  <th>Estado</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders; trackBy: trackId" data-cy="entityTable">
+                  <td>
+                    {{ order.id }}
+                  </td>
+                  <td>{{ order.startDate | formatMediumDatetime }}</td>
+                  <td>{{ order.endDate | formatMediumDatetime }}</td>
+                  <td>
+                    <div *ngIf="order.totalCost !== null">₡{{ order.totalCost }}</div>
+                    <div *ngIf="order.totalCost === null">₡0</div>
+                  </td>
+                  <td [hidden]="rollAdmin !== true">₡{{ order.totalCost! * order.comission! }}</td>
+                  <td>
+                    {{ order.vehicle?.plate }}
+                  </td>
+                  <td>
+                    <div *ngIf="order.operator?.login !== null">{{ order.operator?.login }}</div>
+                    <div *ngIf="order.operator?.login === null">Sin asignar</div>
+                  </td>
+                  <td>
+                    {{ order.business?.name }}
+                  </td>
+                  <td>
+                    {{ order.status?.name }}
+                  </td>
+                  <td class="text-right">
+                    <div class="btn-group">
+                      <button
+                        type="submit"
+                        [routerLink]="['/order', order.id, 'edit']"
+                        class="btn btn-info btn-sm"
+                        data-cy="entityDetailsButton"
+                        [hidden]="rollUser !== true"
+                      >
+                        <fa-icon icon="eye"></fa-icon>
+                      </button>
+
+                      <button
+                        type="submit"
+                        [routerLink]="['/order', order.id, 'edit']"
+                        class="btn btn-primary btn-sm"
+                        data-cy="entityEditButton"
+                        [hidden]="rollOperator !== true"
+                      >
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

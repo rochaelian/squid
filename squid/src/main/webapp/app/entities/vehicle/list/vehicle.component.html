@@ -1,0 +1,166 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h4 id="page-heading" data-cy="VehicleHeading">
+              <span>Vehículos</span>
+            </h4>
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+                <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+                <span></span>
+              </button>
+
+              <button
+                *jhiHasAnyAuthority="'ROLE_USER'"
+                id="jh-create-entity"
+                data-cy="entityCreateButton"
+                class="btn btn-primary jh-create-entity create-vehicle"
+                [routerLink]="['/vehicle/new']"
+              >
+                <fa-icon icon="plus"></fa-icon>
+                <!--      <span> Agregar vehículo </span>-->
+              </button>
+            </div>
+
+            <!--  <jhi-alert-error></jhi-alert-error>-->
+
+            <!--  <jhi-alert></jhi-alert>-->
+
+            <div class="alert alert-warning" id="no-result" *ngIf="vehicles?.length === 0">
+              <span>No posee vehículos actualmente.</span>
+            </div>
+
+            <div class="table-responsive" id="entities" *ngIf="vehicles && vehicles.length > 0">
+              <table class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                  <tr>
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"><span>ID</span></th>
+                    <th scope="col"><span>Placa</span></th>
+                    <th scope="col"><span>Año</span></th>
+                    <th scope="col"><span>RTV</span></th>
+                    <th scope="col"><span>Estado</span></th>
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"><span>Usuario</span></th>
+                    <th scope="col"><span>Aseguradora</span></th>
+                    <th scope="col"><span>Tipo de Motor</span></th>
+                    <th scope="col"><span>Tipo de Vehículo</span></th>
+                    <th scope="col"><span>Marca</span></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let vehicle of vehicles; trackBy: trackId" data-cy="entityTable">
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                      <a [routerLink]="['/vehicle', vehicle.id, 'view']">{{ vehicle.id }}</a>
+                    </td>
+                    <td>{{ vehicle.plate }}</td>
+                    <td>{{ vehicle.year }}</td>
+                    <td>{{ vehicle.rTV | formatMediumDate }}</td>
+                    <td>
+                      <div *ngIf="vehicle.status == 'Enabled'; else showDos">
+                        <bSwitch
+                          [switch-on-color]="'success'"
+                          [switch-off-color]="'primary'"
+                          [switch-off-text]="' '"
+                          [switch-on-text]="' '"
+                          ngModel="true"
+                          (changeState)="updateStatusButton(vehicle)"
+                        ></bSwitch>
+                      </div>
+
+                      <ng-template #showDos>
+                        <bSwitch
+                          [switch-on-color]="'primary'"
+                          [switch-off-color]="'primary'"
+                          [switch-off-text]="' '"
+                          [switch-on-text]="' '"
+                          (changeState)="updateStatusButton(vehicle)"
+                        ></bSwitch>
+                      </ng-template>
+                    </td>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                      {{ vehicle.user?.id }}
+                    </td>
+                    <td>
+                      <div *ngIf="vehicle.insurer">
+                        <a *jhiHasAnyAuthority="'ROLE_ADMIN'" [routerLink]="['/catalog', vehicle.insurer?.id, 'view']">{{
+                          vehicle.insurer?.name
+                        }}</a>
+                        <a *jhiHasAnyAuthority="['ROLE_USER']">{{ vehicle.insurer?.name }}</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="vehicle.motorType">
+                        <a *jhiHasAnyAuthority="'ROLE_ADMIN'" [routerLink]="['/catalog', vehicle.motorType?.id, 'view']">{{
+                          vehicle.motorType?.name
+                        }}</a>
+                        <a *jhiHasAnyAuthority="['ROLE_USER']">{{ vehicle.motorType?.name }}</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="vehicle.vehicleType">
+                        <a *jhiHasAnyAuthority="'ROLE_ADMIN'" [routerLink]="['/catalog', vehicle.vehicleType?.id, 'view']">{{
+                          vehicle.vehicleType?.name
+                        }}</a>
+                        <a *jhiHasAnyAuthority="['ROLE_USER']">{{ vehicle.vehicleType?.name }}</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="vehicle.brand">
+                        <a *jhiHasAnyAuthority="'ROLE_ADMIN'" [routerLink]="['/catalog', vehicle.brand?.id, 'view']">{{
+                          vehicle.brand?.name
+                        }}</a>
+                        <a *jhiHasAnyAuthority="['ROLE_USER']">{{ vehicle.brand?.name }}</a>
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="btn-group">
+                        <button
+                          *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                          type="submit"
+                          [routerLink]="['/vehicle', vehicle.id, 'view']"
+                          class="btn btn-info btn-sm"
+                          data-cy="entityDetailsButton"
+                        >
+                          <fa-icon icon="eye"></fa-icon>
+                          <span class="d-none d-md-inline"></span>
+                        </button>
+
+                        <button
+                          *jhiHasAnyAuthority="'ROLE_USER'"
+                          type="submit"
+                          [routerLink]="['/vehicle', vehicle.id, 'edit']"
+                          class="btn btn-primary btn-sm"
+                          data-cy="entityEditButton"
+                        >
+                          <fa-icon icon="pencil-alt"></fa-icon>
+                        </button>
+
+                        <button
+                          *jhiHasAnyAuthority="'ROLE_USER'"
+                          type="submit"
+                          [routerLink]="['/vehicle', vehicle.id, 'historial']"
+                          class="btn btn-info btn-sm"
+                          data-cy="entityDetailsButton"
+                        >
+                          <fa-icon icon="eye"></fa-icon>
+                          <span class="d-none d-md-inline">Ver historial</span>
+                        </button>
+
+                        <!--              <button type="submit" (click)="delete(vehicle)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">-->
+                        <!--                <fa-icon icon="times"></fa-icon>-->
+                        <!--              </button>-->
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

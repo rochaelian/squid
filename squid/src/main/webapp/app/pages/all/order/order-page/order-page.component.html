@@ -1,0 +1,163 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="saveForm">
+                <h4 id="jhi-order-heading" data-cy="OrderCreateUpdateHeading">Agendar cita</h4>
+
+                <div>
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_vehicle">Vehículo</label>
+
+                    <div class="alert alert-warning" id="no-resultVehicle" *ngIf="vehicles?.length === 0">
+                      <span>No posee vehículos actualmente.</span>
+                    </div>
+                    <select class="form-control border-dark" id="field_vehicle" data-cy="vehicle" name="vehicle" formControlName="vehicle">
+                      <option
+                        [ngValue]="vehicleOption.id === saveForm.get('vehicle')!.value?.id ? saveForm.get('vehicle')!.value : vehicleOption"
+                        *ngFor="let vehicleOption of vehicles; trackBy: trackVehicleById"
+                      >
+                        {{ vehicleOption.plate }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="alert alert-success" id="no-result" *ngIf="businessServices?.length === 0">
+                      <span>No hay más servicios para mostrar en este momento </span>
+                    </div>
+
+                    <div class="dropdown">
+                      <button
+                        class="dropdown-toggle btn btn-outline-default btn-block"
+                        type="button"
+                        id="dropdownService"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        Agregar servicios
+                      </button>
+                      <div class="dropdown-menu btn-outline-default btn-block" id="dropOrder">
+                        <a
+                          class="dropdown-item"
+                          *ngFor="let bussinesService of businessServices"
+                          (click)="onSelectServ(bussinesService, bussinesService.price, bussinesService.duration)"
+                        >
+                          <div *ngIf="bussinesService.service">
+                            {{ bussinesService.service.name }}
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+
+                    <!--                    <select  class="form-control" name="service" id="field_service">
+                      <option
+                        *ngFor="let bussinesService of businessServices"
+                        (change)="onSelectServ(bussinesService, bussinesService.price, bussinesService.duration)"
+                      >
+                        <div *ngIf="bussinesService.service">
+                          {{ bussinesService.service.name }}
+                        </div>
+                      </option>
+                    </select>-->
+                  </div>
+
+                  <div class="form-group">
+                    <label style="margin-top: 15px" class="form-control-label">Servicios de mi cita:</label>
+                    <ul id="ulServices" class="heroes">
+                      <li
+                        class="heroes list-group"
+                        *ngFor="let servicestag of servItems"
+                        (click)="onSelectDelete(servicestag, servicestag.price, servicestag.duration)"
+                      >
+                        <div *ngIf="servicestag.service">
+                          {{ servicestag.service.name }}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="form-group" [hidden]="true">
+                    <label class="form-control-label" for="field_startDate">Start Date</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startDate"
+                        data-cy="startDate"
+                        type="datetime-local"
+                        class="form-control"
+                        name="startDate"
+                        formControlName="startDate"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group" [hidden]="true">
+                    <label class="form-control-label" for="field_endDate">End Date</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endDate"
+                        data-cy="endDate"
+                        type="datetime-local"
+                        class="form-control"
+                        name="endDate"
+                        formControlName="endDate"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group blockquote text-success">
+                    <div *ngFor="let servicestag of servItems">
+                      <div *ngIf="servicestag.service">
+                        <label class="form-control-label">{{ servicestag.service.name }}:</label>
+                        {{ servicestag.price }}
+                      </div>
+                    </div>
+                    <label class="form-control-label">Costo por servicios:</label>
+                    {{ servicesCost }}
+                    <br /><label class="form-control-label">IVA:</label>
+                    {{ costIVA }}
+                    <br /><label class="form-control-label" id="field_totalCost">Costo total:</label>
+                    {{ totalCost }}
+                  </div>
+
+                  <div class="form">
+                    <label class="form-control-label">Duración apróximada:</label>
+                    {{ timeService }} hora(s)
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    type="button"
+                    id="cancel-save"
+                    data-cy="entityCreateCancelButton"
+                    class="btn btn-danger"
+                    (click)="previousState()"
+                  >
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    id="save-entity"
+                    data-cy="entityCreateSaveButton"
+                    [disabled]="saveForm.invalid || isSaving"
+                    class="btn btn-success"
+                  >
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Agendar</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="schedule">
+      <h2 data-cy="scheduleDetailsHeading"><span>Schedule</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ schedule.id }}</span>
+        </dd>
+        <dt><span>Day</span></dt>
+        <dd>
+          <span>{{ schedule.day }}</span>
+        </dd>
+        <dt><span>Start Time</span></dt>
+        <dd>
+          <span>{{ schedule.startTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>End Time</span></dt>
+        <dd>
+          <span>{{ schedule.endTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Is Special</span></dt>
+        <dd>
+          <span>{{ schedule.isSpecial }}</span>
+        </dd>
+        <dt><span>Special Date</span></dt>
+        <dd>
+          <span>{{ schedule.specialDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Business</span></dt>
+        <dd>
+          <div *ngIf="schedule.business">
+            <a [routerLink]="['/business', schedule.business?.id, 'view']">{{ schedule.business?.name }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/schedule', schedule.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

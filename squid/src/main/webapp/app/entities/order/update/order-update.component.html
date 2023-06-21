@@ -1,0 +1,435 @@
+<div class="row">
+  <div class="col-md-10 ml-auto mr-auto">
+    <div class="card card-plain card-subcategories">
+      <div class="card-header">
+        <h4 class="card-title text-center">Orden #{{ this.order?.id }}</h4>
+        <br />
+      </div>
+      <div class="card-body">
+        <ul class="nav nav-pills nav-pills-primary nav-pills-icons justify-content-center" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#link17" (click)="previousState()" role="tablist">
+              <i class="fas fa-angle-left"></i> Atrás
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              [ngClass]="this.order?.status?.id == 32 && this.account.authorities[0] == 'ROLE_USER' ? 'nav-link' : 'nav-link active'"
+              data-toggle="tab"
+              href="#order"
+              role="tablist"
+            >
+              Orden
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#details" role="tablist">
+              <i class="now-ui-icons shopping_shop"></i> Detalles de Orden
+            </a>
+          </li>
+          <li class="nav-item" *jhiHasAnyAuthority="'ROLE_USER'">
+            <a
+              [ngClass]="this.order?.status?.id == 32 && this.account.authorities[0] == 'ROLE_USER' ? 'nav-link active' : 'nav-link'"
+              data-toggle="tab"
+              href="#link9"
+              role="tablist"
+            >
+              <i class="now-ui-icons ui-2_settings-90"></i> Pago
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content tab-space tab-subcategories">
+          <!--ORDER-->
+          <div
+            [ngClass]="this.order?.status?.id == 32 && this.account.authorities[0] == 'ROLE_USER' ? 'tab-pane' : 'tab-pane active'"
+            id="order"
+            *ngIf="order?.id! != undefined"
+          >
+            <div class="row justify-content-center">
+              <div class="card col-md-9">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="nav-tabs-navigation pt-3">
+                      <div class="nav-tabs-wrapper">
+                        <ul id="tabs" class="nav nav-tabs" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link text-info active" data-toggle="tab" href="#home" role="tab" aria-expanded="true">Cliente</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link text-info" data-toggle="tab" href="#profile" role="tab" aria-expanded="false">Operador </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-7"></div>
+                </div>
+                <div class="row">
+                  <!-- Profiles-->
+                  <div class="col-4">
+                    <div id="my-tab-content" class="tab-content text-center">
+                      <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                        <jhi-user-profile-external [userId]="order?.vehicle?.user?.id!"> </jhi-user-profile-external>
+                      </div>
+                      <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
+                        <jhi-user-profile-external
+                          [idNullMessage]="'No hay operador asignado aún.'"
+                          [userId]="order?.operator?.id!"
+                        ></jhi-user-profile-external>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <div class="row">
+                      <!--Order column 1-->
+                      <div class="col-6">
+                        <dl class="pt-4 jh-entity-details">
+                          <dt><span>Número de orden</span></dt>
+                          <dd>
+                            <span>{{ order?.id }}</span>
+                          </dd>
+                          <dt><span>Fecha de ingreso</span></dt>
+                          <dd>
+                            <span>{{ order?.startDate | formatMediumDatetime }}</span>
+                          </dd>
+                          <dt><span>Fecha de pago</span></dt>
+                          <dd>
+                            <span>{{ order?.endDate | formatMediumDatetime }}</span>
+                          </dd>
+                          <dt><span>Costo Final</span></dt>
+                          <dd>
+                            <span>{{ order?.totalCost }}</span>
+                          </dd>
+                        </dl>
+                      </div>
+                      <!--Order column 2-->
+                      <div class="col-6">
+                        <dl class="pt-4 jh-entity-details">
+                          <dt><span>Comisión</span></dt>
+                          <dd>
+                            <span>{{ order?.comission }}</span>
+                          </dd>
+                          <dt><span>Vehículo</span></dt>
+                          <dd>
+                            <div *ngIf="order?.vehicle">
+                              <a [routerLink]="['/vehicle', order?.vehicle?.id, 'view']"
+                                >{{ order?.vehicle?.plate }} ({{ order?.vehicle?.vehicleType?.name }} {{ order?.vehicle?.brand?.name }})</a
+                              >
+                            </div>
+                          </dd>
+                          <dt><span>Comercio</span></dt>
+                          <dd>
+                            <div *ngIf="order?.business">
+                              <a [routerLink]="['/business', order?.business?.id, 'view']">{{ order?.business?.name }}</a>
+                            </div>
+                          </dd>
+                          <dt><span>Estado de la orden</span></dt>
+                          <dd>
+                            <div *ngIf="order?.status">
+                              <div class="dropdown">
+                                <button
+                                  type="button"
+                                  class="btn btn-round btn-sm btn-default btn dropdown-toggle"
+                                  data-toggle="dropdown"
+                                  [disabled]="
+                                    isLoadingOrderStatus || order?.status?.name === 'Terminado' || order?.status?.name === 'Pagado'
+                                  "
+                                >
+                                  <!--                        <i class="nc-icon nc-settings-gear-65"></i>-->
+                                  <fa-icon icon="sync" *ngIf="isLoadingOrderStatus" [spin]="isLoadingOrderStatus"></fa-icon>
+                                  {{ order?.status?.name }}
+                                </button>
+                                <div
+                                  class="dropdown-menu"
+                                  aria-labelledby="navbarDropdownMenuLink"
+                                  *jhiHasAnyAuthority="['ROLE_OPERATOR', 'ROLE_BUSINESS_ADMIN']"
+                                >
+                                  <ng-template ngFor let-catalog [ngForOf]="catalogsSharedCollection!">
+                                    <ng-template
+                                      [ngIf]="
+                                        order?.status?.name !== catalog.name &&
+                                        catalog.type === 'Estado de orden' &&
+                                        (catalog.name === 'Terminado' || catalog.name === 'En proceso')
+                                      "
+                                    >
+                                      <a class="dropdown-item" href="javascript:void(0)" (click)="changeOrderStatus(catalog)">{{
+                                        catalog.name
+                                      }}</a>
+                                    </ng-template>
+                                  </ng-template>
+                                </div>
+                              </div>
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <!--Photographs-->
+                    <div class="row">
+                      <div class="col-6">
+                        <table class="table">
+                          <tr>
+                            <td class="text-left">Fotografías:</td>
+                            <td class="img-row" *ngFor="let file of order?.files">
+                              <div class="img-wrapper">
+                                <a [href]="file.uRL" target="_blank">
+                                  <img [src]="transformImage(file?.uRL!)" class="img-raised" />
+                                </a>
+                              </div>
+                            </td>
+                            <td class="td-actions">
+                              <a data-toggle="collapse" #addPhotoButtonOrder [attr.href]="'#collapseOrder'">
+                                <button title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral">
+                                  <i class="nc-icon nc-simple-add"></i>
+                                </button>
+                              </a>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <div [attr.id]="'accordionOrder'" role="tablist" class="card-collapse mb-n5 pb-3">
+                          <div [attr.id]="'collapseOrder'" class="collapse" role="tabpanel">
+                            <div
+                              class="custom-dropzone mb-5 clearfix"
+                              ngx-dropzone
+                              style="margin: 20px"
+                              (change)="orderDropboxOnSelect($event)"
+                            >
+                              <ngx-dropzone-label>Click para seleccionar o arrastrar imagen.</ngx-dropzone-label>
+                              <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of dropZoneFiles" [file]="f">
+                                <ngx-dropzone-label></ngx-dropzone-label>
+                              </ngx-dropzone-image-preview>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Order Details-->
+          <div class="tab-pane" id="details">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-timeline card-plain">
+                  <div class="card-body">
+                    <ul class="timeline" *ngIf="serviceOrders">
+                      <ng-template ngFor let-odd="odd" let-so [ngForOf]="serviceOrders!" let-index="index">
+                        <jhi-service-order-timeline
+                          [so]="so"
+                          [odd]="odd"
+                          [catalogsSharedCollection]="catalogsSharedCollection"
+                        ></jhi-service-order-timeline>
+                      </ng-template>
+                      <li [ngClass]="{ 'timeline-inverted': serviceOrders.length % 2 !== 0 }">
+                        <div class="timeline-badge info">
+                          <i (click)="serviceEditable(true)" class="nc-icon nc-simple-add"></i>
+                        </div>
+                        <div class="timeline-panel" *ngIf="newServiceEditable">
+                          <div class="row">
+                            <div class="col-7">
+                              <p>Agregar servicio</p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-7">
+                              <select class="form-control mt-2" id="newServiceOrder" [(ngModel)]="selectedBusinessService">
+                                <option *ngFor="let bussinesService of businessServicesCollection" [ngValue]="bussinesService">
+                                  {{ bussinesService?.service?.name! }} - &#8353; {{ bussinesService?.price! }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col-3">
+                              <button
+                                type="button"
+                                (click)="serviceEditable(false)"
+                                class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral float-left"
+                              >
+                                <i class="nc-icon nc-simple-remove"></i>
+                              </button>
+                              <button
+                                (click)="saveNewServiceOrder()"
+                                type="submit"
+                                rel="tooltip"
+                                title=""
+                                class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral float-left pb-4"
+                              >
+                                <i class="nc-icon nc-check-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            [ngClass]="this.order?.status?.id == 32 && this.account.authorities[0] == 'ROLE_USER' ? 'tab-pane active' : 'tab-pane'"
+            id="link9"
+            *jhiHasAnyAuthority="'ROLE_USER'"
+          >
+            <div
+              class="alert alert-warning"
+              id="no-result"
+              *ngIf="order?.status?.name === 'En proceso' || order?.status?.name === 'En espera'"
+            >
+              <span>No puede realizar el pago, la orden aún no se encuentra terminada.</span>
+            </div>
+            <div class="alert alert-warning" id="result-no" *ngIf="order?.status?.name === 'Pagado' && myBooleanVal">
+              <span>La orden ya fue pagada.</span>
+            </div>
+            <jhi-payment *ngIf="(order?.status?.name === 'Terminado' || order?.status?.name === 'Pagado') && !myBooleanVal"></jhi-payment>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="false" class="row justify-content-center">
+  <div class="col-8">
+    <div class="card">
+      <div class="card-header">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+          <h2 id="jhi-order-heading" data-cy="OrderCreateUpdateHeading">Create or edit a Order</h2>
+
+          <div>
+            <jhi-alert-error></jhi-alert-error>
+
+            <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+              <label class="form-control-label" for="field_id">ID</label>
+              <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_startDate">Start Date</label>
+              <div class="d-flex">
+                <input
+                  id="field_startDate"
+                  data-cy="startDate"
+                  type="datetime-local"
+                  class="form-control"
+                  name="startDate"
+                  formControlName="startDate"
+                  placeholder="YYYY-MM-DD HH:mm"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_endDate">End Date</label>
+              <div class="d-flex">
+                <input
+                  id="field_endDate"
+                  data-cy="endDate"
+                  type="datetime-local"
+                  class="form-control"
+                  name="endDate"
+                  formControlName="endDate"
+                  placeholder="YYYY-MM-DD HH:mm"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_totalCost">Total Cost</label>
+              <input
+                type="number"
+                class="form-control"
+                name="totalCost"
+                id="field_totalCost"
+                data-cy="totalCost"
+                formControlName="totalCost"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_comission">Comission</label>
+              <input
+                type="number"
+                class="form-control"
+                name="comission"
+                id="field_comission"
+                data-cy="comission"
+                formControlName="comission"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_vehicle">Vehicle</label>
+              <select class="form-control" id="field_vehicle" data-cy="vehicle" name="vehicle" formControlName="vehicle">
+                <option [ngValue]="null"></option>
+                <option
+                  [ngValue]="vehicleOption.id === editForm.get('vehicle')!.value?.id ? editForm.get('vehicle')!.value : vehicleOption"
+                  *ngFor="let vehicleOption of vehiclesSharedCollection; trackBy: trackVehicleById"
+                >
+                  {{ vehicleOption.plate }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_operator">Operator</label>
+              <select class="form-control" id="field_operator" data-cy="operator" name="operator" formControlName="operator">
+                <option [ngValue]="null"></option>
+                <option
+                  [ngValue]="userOption.id === editForm.get('operator')!.value?.id ? editForm.get('operator')!.value : userOption"
+                  *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+                >
+                  {{ userOption.id }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_business">Business</label>
+              <select class="form-control" id="field_business" data-cy="business" name="business" formControlName="business">
+                <option [ngValue]="null"></option>
+                <option
+                  [ngValue]="businessOption.id === editForm.get('business')!.value?.id ? editForm.get('business')!.value : businessOption"
+                  *ngFor="let businessOption of businessesSharedCollection; trackBy: trackBusinessById"
+                >
+                  {{ businessOption.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_status">Status</label>
+              <select class="form-control" id="field_status" data-cy="status" name="status" formControlName="status">
+                <option [ngValue]="null"></option>
+                <option
+                  [ngValue]="catalogOption.id === editForm.get('status')!.value?.id ? editForm.get('status')!.value : catalogOption"
+                  *ngFor="let catalogOption of catalogsSharedCollection; trackBy: trackCatalogById"
+                >
+                  {{ catalogOption.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+              <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+            </button>
+
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="businessService">
+      <h4 data-cy="businessServiceDetailsHeading"><span>Business Service</span></h4>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ businessService.id }}</span>
+        </dd>
+        <dt><span>Price</span></dt>
+        <dd>
+          <span>{{ businessService.price }}</span>
+        </dd>
+        <dt><span>Duration</span></dt>
+        <dd>
+          <span>{{ businessService.duration }}</span>
+        </dd>
+        <dt><span>Business</span></dt>
+        <dd>
+          <div *ngIf="businessService.business">
+            <a [routerLink]="['/business', businessService.business?.id, 'view']">{{ businessService.business?.name }}</a>
+          </div>
+        </dd>
+        <dt><span>Service</span></dt>
+        <dd>
+          <div *ngIf="businessService.service">
+            <a [routerLink]="['/cat-service', businessService.service?.id, 'view']">{{ businessService.service?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/business-service', businessService.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Comercios</h4>
+          <div class="d-flex justify-content-end buttonsCreateBusiness">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            </button>
+
+            <button
+              id="jh-create-entity"
+              data-cy="entityCreateButton"
+              class="btn btn-primary jh-create-entity create-business"
+              [routerLink]="['/business/new']"
+              [hidden]="rollAdmin == true"
+            >
+              <fa-icon icon="plus"></fa-icon>
+            </button>
+          </div>
+
+          <div class="alert alert-warning" id="no-result" *ngIf="businesses?.length === 0">
+            <span>No existen comercios aprobados</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" id="entities" *ngIf="businesses && businesses.length > 0">
+            <table class="table">
+              <thead class="">
+                <th [hidden]="true">ID</th>
+                <th>CÉDULA JURÍDICA</th>
+                <th>NOMBRE</th>
+                <th>RÉGIMEN TRIBUTARIO</th>
+                <th>CALIFICACIÓN</th>
+                <th>ESTADO</th>
+                <th></th>
+                <th [hidden]="rollAdmin">HORARIO</th>
+                <th></th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let business of businesses; trackBy: trackId" data-cy="entityTable">
+                  <td [hidden]="true">
+                    {{ business.id }}
+                  </td>
+                  <td>{{ business.identification }}</td>
+                  <td>{{ business.name }}</td>
+                  <td>{{ business.taxRegime }}</td>
+                  <td>{{ business.rating }}</td>
+                  <td>
+                    <div *ngIf="business.status == 'Pending'; else showEnabled">
+                      <button (click)="updateStatusButton(business, 'Enabled')" class="btn btn-success">
+                        <span class="btn-label">Aprobar</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngIf="business.status == 'Pending'">
+                      <button (click)="updateStatusButton(business, 'Rejected')" class="btn btn-danger">Rechazar</button>
+                    </div>
+                    <ng-template #showEnabled>
+                      <div *ngIf="business.status == 'Enabled'; else dis">
+                        <bSwitch
+                          [switch-on-color]="'success'"
+                          [switch-off-color]="'primary'"
+                          [switch-off-text]="' '"
+                          [switch-on-text]="' '"
+                          ngModel="true"
+                          (changeState)="updateStatusButtonHD(business)"
+                        ></bSwitch>
+                      </div>
+                      <ng-template #dis>
+                        <div *ngIf="business.status == 'Disabled'">
+                          <bSwitch
+                            [switch-on-color]="'primary'"
+                            [switch-off-color]="'primary'"
+                            [switch-off-text]="' '"
+                            [switch-on-text]="' '"
+                            (changeState)="updateStatusButtonHD(business)"
+                          ></bSwitch>
+                        </div>
+                      </ng-template>
+                    </ng-template>
+                  </td>
+                  <td [hidden]="rollAdmin">
+                    <button class="btn btn-outline-primary btn-round btn-icon" [routerLink]="['/schedule/new']" [queryParams]="business">
+                      <a class="fa fa-clock"></a>
+                    </button>
+                  </td>
+                  <td></td>
+                  <td class="text-left">
+                    <div class="btn-group">
+                      <button [routerLink]="['/business', business.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                        <fa-icon icon="eye"></fa-icon>
+                      </button>
+                      <button
+                        type="submit"
+                        [routerLink]="['/business', business.id, 'edit']"
+                        class="btn btn-primary btn-sm"
+                        data-cy="entityEditButton"
+                        [hidden]="rollAdmin"
+                      >
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

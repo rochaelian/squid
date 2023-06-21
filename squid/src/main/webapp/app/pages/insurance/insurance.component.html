@@ -1,0 +1,313 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <h4 data-cy="OrderCreateUpdateHeading">Avalúos en proceso</h4>
+
+              <div *jhiHasAnyAuthority="'ROLE_OPERATOR'">
+                <!-- **** PARA ROL OPERADOR **** -->
+                <div class="alert alert-primary" id="no-result" *ngIf="ordersOpertr?.length === 0">
+                  <span>No hay avalúos en proceso en este momento</span>
+                </div>
+                <div class="table-bordered" style="text-align: center" id="entities" *ngIf="ordersOpertr && ordersOpertr.length > 0">
+                  <table class="table table-striped" aria-describedby="page-heading">
+                    <thead>
+                      <tr>
+                        <th scope="col"><span>ID</span></th>
+                        <th scope="col"><span>Vehículo</span></th>
+                        <th scope="col"><span>Estado</span></th>
+                        <th scope="col"><span>Comercio</span></th>
+                        <th scope="col"><span>Opciones</span></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let order of ordersOpertr; trackBy: trackId" data-cy="entityTable">
+                        <td>
+                          <a>{{ order.id }}</a>
+                        </td>
+                        <td>
+                          <div *ngIf="order.vehicle">
+                            {{ order.vehicle.plate }}
+                          </div>
+                        </td>
+
+                        <td>
+                          <div *ngIf="order.status">
+                            {{ order.status.name }}
+                          </div>
+                        </td>
+
+                        <td>
+                          <div *ngIf="order.business">
+                            {{ order.business.name }}
+                          </div>
+                        </td>
+
+                        <td class="text-right">
+                          <div class="btn-group">
+                            <button
+                              type="submit"
+                              [routerLink]="['/insurance-update']"
+                              (click)="editAval(order.id)"
+                              class="btn btn-primary btn-sm"
+                              data-cy="entityEditButton"
+                            >
+                              <fa-icon icon="pencil-alt"></fa-icon>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div *jhiHasAnyAuthority="'ROLE_USER'">
+                <!-- **** PARA ROL USER **** -->
+                <div class="alert alert-primary" id="no-result2" *ngIf="ordersClient?.length === 0">
+                  <span>No hay avalúos en proceso en este momento</span>
+                </div>
+
+                <div class="table-bordered" style="text-align: center" id="entities2" *ngIf="ordersClient && ordersClient.length > 0">
+                  <table class="table table-striped" aria-describedby="page-heading">
+                    <thead>
+                      <tr>
+                        <th scope="col"><span>Vehículo</span></th>
+                        <th scope="col"><span>Estado</span></th>
+                        <th scope="col"><span>Comercio</span></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let order of ordersClient; trackBy: trackId" data-cy="entityTable">
+                        <td>
+                          <div *ngIf="order.vehicle">
+                            {{ order.vehicle.plate }}
+                          </div>
+                        </td>
+
+                        <td>
+                          <div *ngIf="order.status">
+                            {{ order.status.name }}
+                          </div>
+                        </td>
+
+                        <td>
+                          <div *ngIf="order.business">
+                            {{ order.business.name }}
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div *jhiHasAnyAuthority="'ROLE_USER'">
+                <h5 data-cy="OrderCreateUpdateHeading">Avalúos finalizados</h5>
+                <!-- **** PARA ROL USER **** -->
+                <div class="alert alert-primary" id="no-result3" *ngIf="ordersToAccept?.length === 0">
+                  <span>No hay avalúos finalizados en este momento</span>
+                </div>
+
+                <div class="table-bordered" style="text-align: center" id="entities3" *ngIf="ordersToAccept && ordersToAccept.length > 0">
+                  <table class="table table-striped" aria-describedby="page-heading">
+                    <thead>
+                      <tr>
+                        <th scope="col"><span>Vehículo</span></th>
+                        <th scope="col"><span>Comercio</span></th>
+                        <th scope="col"><span>Total a pagar</span></th>
+                        <th scope="col"><span>Opciones</span></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let order of ordersToAccept; trackBy: trackId" data-cy="entityTable">
+                        <td>
+                          <div *ngIf="order.vehicle">
+                            {{ order.vehicle.plate }}
+                          </div>
+                        </td>
+
+                        <td>
+                          <div *ngIf="order.business">
+                            {{ order.business.name }}
+                          </div>
+                        </td>
+
+                        <td>
+                          {{ order.totalCost }}
+                        </td>
+
+                        <td>
+                          <div class="btn-group">
+                            <button [routerLink]="['/insurance-update']" (click)="editAval(order.id)" class="btn btn-primary btn-sm">
+                              Ver detalles
+                            </button>
+                            <button (click)="updateStatusButton(order)" class="btn btn-success">Aprobar</button>
+                            <button (click)="updateRejectedStatusButton(order)" class="btn btn-danger">Rechazar</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <form
+                style="margin-top: 50px"
+                *jhiHasAnyAuthority="'ROLE_USER'"
+                name="editForm"
+                role="form"
+                novalidate
+                (ngSubmit)="save()"
+                [formGroup]="saveForm"
+              >
+                <h4 id="jhi-order-heading" data-cy="OrderCreateUpdateHeading">Solicitar avalúo</h4>
+
+                <div class="blockquote">
+                  <!-- --- Lista de vehículos --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_vehicle">Vehículo</label>
+
+                    <div class="alert alert-info" id="no-resultVehicle" *ngIf="vehicles?.length === 0">
+                      <span>No posee vehículos actualmente.</span>
+                    </div>
+                    <select
+                      class="form-control border-dark"
+                      id="field_vehicle"
+                      data-cy="vehicle"
+                      name="vehicle"
+                      formControlName="vehicle"
+                      [(ngModel)]="selectedVehicle"
+                      (change)="onSelectVehicle()"
+                    >
+                      <option
+                        [ngValue]="vehicleOption.id === saveForm.get('vehicle')!.value?.id ? saveForm.get('vehicle')!.value : vehicleOption"
+                        *ngFor="let vehicleOption of vehicles; trackBy: trackVehicleById"
+                      >
+                        {{ vehicleOption.plate }} -
+                        <div *ngIf="vehicleOption.insurer">
+                          {{ vehicleOption.insurer.name }}
+                        </div>
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- --- Lista de comercios por aseguradora --- -->
+
+                  <div class="form-group">
+                    <label class="form-control-label" for="field_business">Comercios afiliados a su aseguradora</label>
+
+                    <select
+                      class="form-control border-dark"
+                      id="field_business"
+                      data-cy="business"
+                      name="vehicle"
+                      formControlName="business"
+                      [(ngModel)]="selectedBusiness"
+                      (change)="loadServiceOfBusiness()"
+                    >
+                      <option
+                        [ngValue]="
+                          businesOption.id === saveForm.get('business')!.value?.id ? saveForm.get('business')!.value : businesOption
+                        "
+                        *ngFor="let businesOption of businessInsurance; trackBy: trackBusinessById"
+                      >
+                        {{ businesOption.name }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- --- El servicio por defecto --- -->
+
+                  <div class="form">
+                    <label class="form-control-label text-success"></label>
+                    {{ bussinessServiceName }}
+                    <br /><label class="form-control-label"></label>
+                  </div>
+
+                  <!--                  <div class="form-group">
+                                      <label style="margin-top: 15px" class="form-control-label">Servicios de mi cita:</label>
+                                      <ul id="ulServices" class="heroes">
+                                        <li
+                                          class="heroes list-group"
+                                          *ngFor="let servicestag of servItems"
+                                          (click)="onSelectDelete(servicestag, servicestag.price, servicestag.duration)"
+                                        >
+                                          <div *ngIf="servicestag.service">
+                                            {{ servicestag.service.name }}
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>-->
+
+                  <div class="form-group" [hidden]="true">
+                    <label class="form-control-label" for="field_startDate">Fecha y hora de la cita</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startDate"
+                        data-cy="startDate"
+                        type="datetime-local"
+                        class="form-control"
+                        name="startDate"
+                        formControlName="startDate"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group" [hidden]="true">
+                    <label class="form-control-label" for="field_endDate">End Date</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endDate"
+                        data-cy="endDate"
+                        type="datetime-local"
+                        class="form-control"
+                        name="endDate"
+                        formControlName="endDate"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 20px">
+                  <label class="form-control-label">*La duración apróximada del avalúo es de 2 días</label><br />
+                </div>
+
+                <div>
+                  <button
+                    type="button"
+                    id="cancel-save"
+                    data-cy="entityCreateCancelButton"
+                    class="btn btn-danger"
+                    (click)="previousState()"
+                  >
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    id="save-entity"
+                    data-cy="entityCreateSaveButton"
+                    [disabled]="saveForm.invalid || isSaving"
+                    class="btn btn-success"
+                  >
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Solicitar</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

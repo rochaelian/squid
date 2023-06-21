@@ -1,0 +1,83 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Días feriados</h4>
+        <div class="d-flex justify-content-end buttonsCreateBusiness">
+          <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+            <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          </button>
+
+          <button
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+            class="btn btn-primary jh-create-entity create-schedule"
+            [routerLink]="['/schedule/new']"
+          >
+            <fa-icon icon="plus"></fa-icon>
+            <span> Días Feriados </span>
+          </button>
+        </div>
+        <div class="alert alert-warning" id="no-result" *ngIf="schedulesByOwner?.length === 0">
+          <span>No existen días feriados registrados</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive" id="entities" *ngIf="schedulesByOwner && schedulesByOwner.length > 0">
+          <table class="table">
+            <thead class="">
+              <tr>
+                <th>Id</th>
+                <th>Día feriado</th>
+                <th>Comercio</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let schedule of schedulesByOwner; trackBy: trackId" data-cy="entityTable">
+                <td>
+                  {{ schedule.id }}
+                </td>
+                <td>{{ schedule.specialDate | formatMediumDate }}</td>
+                <td>
+                  <div *ngIf="schedule.business">
+                    {{ schedule.business?.name }}
+                  </div>
+                </td>
+                <!--                <td class="text-right">-->
+                <!--                  <div class="btn-group">-->
+                <!--                    <button-->
+                <!--                      type="submit"-->
+                <!--                      [routerLink]="['/schedule', schedule.id, 'view']"-->
+                <!--                      class="btn btn-info btn-sm"-->
+                <!--                      data-cy="entityDetailsButton"-->
+                <!--                    >-->
+                <!--                      <fa-icon icon="eye"></fa-icon>-->
+                <!--                      <span class="d-none d-md-inline">View</span>-->
+                <!--                    </button>-->
+
+                <!--                    <button-->
+                <!--                      type="submit"-->
+                <!--                      [routerLink]="['/schedule', schedule.id, 'edit']"-->
+                <!--                      class="btn btn-primary btn-sm"-->
+                <!--                      data-cy="entityEditButton"-->
+                <!--                    >-->
+                <!--                      <fa-icon icon="pencil-alt"></fa-icon>-->
+                <!--                      <span class="d-none d-md-inline">Edit</span>-->
+                <!--                    </button>-->
+
+                <!--                    <button type="submit" (click)="delete(schedule)" class="btn btn-danger btn-sm"-->
+                <!--                            data-cy="entityDeleteButton">-->
+                <!--                      <fa-icon icon="times"></fa-icon>-->
+                <!--                      <span class="d-none d-md-inline">Delete</span>-->
+                <!--                    </button>-->
+                <!--                  </div>-->
+                <!--                </td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="orderRating">
+      <h2 data-cy="orderRatingDetailsHeading"><span>Order Rating</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ orderRating.id }}</span>
+        </dd>
+        <dt><span>Rating</span></dt>
+        <dd>
+          <span>{{ orderRating.rating }}</span>
+        </dd>
+        <dt><span>Comment</span></dt>
+        <dd>
+          <span>{{ orderRating.comment }}</span>
+        </dd>
+        <dt><span>Order</span></dt>
+        <dd>
+          <div *ngIf="orderRating.order">
+            <a [routerLink]="['/order', orderRating.order?.id, 'view']">{{ orderRating.order?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/order-rating', orderRating.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

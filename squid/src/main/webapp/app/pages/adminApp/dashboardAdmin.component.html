@@ -1,0 +1,239 @@
+<div class="row mt-2"></div>
+<div class="row">
+  <!--  <div class="col-lg-2 col-md-4 col-sm-4"></div>-->
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-pin-3 text-info"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Ingresos por SEO</p>
+              <p class="card-title">&#8353;{{ seoRecordSumCost }}</p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats"><i class="fas fa-money-bill-wave-alt"></i> Ingresos</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-money-coins text-success"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Comisiones</p>
+              <p class="card-title">&#8353;{{ ordersComission }}</p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats"><i class="fas fa-money-bill-wave-alt"></i> Ingresos históricos</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-shop text-danger"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Comercio preferido</p>
+              <p class="card-title">{{ highestBusiness.name }}</p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <hr />
+        <div class="stats"><i class="fa fa-clock-o"></i> Históricamente</div>
+      </div>
+    </div>
+  </div>
+  <!--  <div class="col-lg-3 col-md-6 col-sm-6">-->
+  <!--    <div class="card card-stats">-->
+  <!--      <div class="card-body">-->
+  <!--        <div class="row">-->
+  <!--          <div class="col-5 col-md-4">-->
+  <!--            <div class="icon-big text-center icon-warning">-->
+  <!--              <i class="nc-icon nc-favourite-28 text-primary"></i>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          <div class="col-7 col-md-8">-->
+  <!--            <div class="numbers">-->
+  <!--              <p class="card-category">Followers</p>-->
+  <!--              <p class="card-title">+45K</p>-->
+  <!--              <p></p>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--      <div class="card-footer">-->
+  <!--        <hr />-->
+  <!--        <div class="stats"><i class="fa fa-refresh"></i> Update now</div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+</div>
+<div class="row">
+  <!--  <div class="col-md-1"></div>-->
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Distribución de Usuarios</h5>
+        <!--<p class="card-category">Last Campaign Performance</p>-->
+      </div>
+      <div class="card-body">
+        <canvas id="chartUsers"></canvas>
+      </div>
+      <div class="card-footer">
+        <div class="legend">
+          <i class="fa fa-circle text-primary"></i> {{ usersDistribution['ROLE_OPERATOR'] }} Operadores
+          <br />
+          <i class="fa fa-circle text-warning"></i> {{ usersDistribution['ROLE_USER'] }} Usuarios
+          <br />
+          <i class="fa fa-circle text-danger"></i>
+          {{ usersDistribution['ROLE_BUSINESS_ADMIN'] }} Administradores de Comercio
+          <!--          <i class="fa fa-circle text-gray"></i> Unopened-->
+        </div>
+        <hr />
+        <div class="stats"><i class="fa fa-calendar"></i> Cantidades de usuarios</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card card-chart">
+      <div class="card-header">
+<<<<<<< HEAD
+        <h5 class="card-title">Marcas de vehículos más populares</h5>
+=======
+        <h5 class="card-title">Marcas de vehículos mas populares</h5>
+        <span class="card-category"></span>
+>>>>>>> dev
+        <p class="card-category">Por cantidad de ordenes</p>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Logo</th>
+                <th scope="col">Marca</th>
+                <th scope="col" class="text-right"># de ordenes</th>
+                <th scope="col" class="text-right">%</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-template ngFor let-odd="odd" let-brand [ngForOf]="popularBrands![0]" let-index="index">
+                <tr>
+                  <td>
+                    <div class="flag">
+                      <img [src]="'./content/images/brands/' + brand + '.png'" />
+                    </div>
+                  </td>
+                  <td>{{ brand }}</td>
+                  <td class="text-right">
+                    {{ popularBrands![1][index] }}
+                  </td>
+                  <td class="text-right">
+                    {{ popularBrands![2][index] }}
+                  </td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--      <div class="card-footer">-->
+      <!--        <div class="card-stats"><i class="fa fa-check"></i> Información actual</div>-->
+      <!--      </div>-->
+    </div>
+  </div>
+
+  <!--  <div class="col-md-1"></div>-->
+</div>
+
+<div class="row">
+  <!--  <div class="col-md-1"></div>-->
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Ordenes en espera</h5>
+        <p class="card-category">Total</p>
+      </div>
+      <div class="card-body">
+        <canvas id="chartWaitingOrders" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
+        <div class="donut-inner">
+          <h3>{{ waitingOrders }}%</h3>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="legend"><i class="fa fa-circle text-danger"></i> En espera</div>
+        <hr />
+        <div class="stats"><i class="fa fa-clock-o"></i> Datos actuales</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Ordenes en proceso</h5>
+        <p class="card-category">Total</p>
+      </div>
+      <div class="card-body">
+        <canvas id="chartInProcessOrders" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
+        <div class="donut-inner">
+          <h3>{{ inProcessOrders }}%</h3>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="legend"><i class="fa fa-circle text-warning"></i> En proceso</div>
+        <hr />
+        <div class="stats"><i class="fa fa-clock-o"></i> Datos actuales</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Ordenes Pagadas</h5>
+        <p class="card-category">Total</p>
+      </div>
+      <div class="card-body">
+        <canvas id="chartOrders" class="ct-chart ct-perfect-fourth" width="456" height="300"></canvas>
+        <div class="donut-inner">
+          <h3>{{ completedOrders }}%</h3>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="legend"><i class="fa fa-circle text-info"></i> Pagadas</div>
+        <hr />
+        <div class="stats"><i class="fa fa-clock-o"></i> Datos actuales</div>
+      </div>
+    </div>
+  </div>
+</div>

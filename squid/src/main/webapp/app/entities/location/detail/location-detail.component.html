@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="location">
+      <h2 data-cy="locationDetailsHeading"><span>Location</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ location.id }}</span>
+        </dd>
+        <dt><span>Province</span></dt>
+        <dd>
+          <span>{{ location.province }}</span>
+        </dd>
+        <dt><span>Canton</span></dt>
+        <dd>
+          <span>{{ location.canton }}</span>
+        </dd>
+        <dt><span>District</span></dt>
+        <dd>
+          <span>{{ location.district }}</span>
+        </dd>
+        <dt><span>Latitud</span></dt>
+        <dd>
+          <span>{{ location.latitud }}</span>
+        </dd>
+        <dt><span>Longitude</span></dt>
+        <dd>
+          <span>{{ location.longitude }}</span>
+        </dd>
+        <dt><span>Exact Location</span></dt>
+        <dd>
+          <span>{{ location.exactLocation }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/location', location.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="serviceOrder">
+      <h2 data-cy="serviceOrderDetailsHeading"><span>Service Order</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ serviceOrder.id }}</span>
+        </dd>
+        <dt><span>Start Date</span></dt>
+        <dd>
+          <span>{{ serviceOrder.startDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>End Date</span></dt>
+        <dd>
+          <span>{{ serviceOrder.endDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Deductible</span></dt>
+        <dd>
+          <span>{{ serviceOrder.deductible }}</span>
+        </dd>
+        <dt><span>Updated Cost</span></dt>
+        <dd>
+          <span>{{ serviceOrder.updatedCost }}</span>
+        </dd>
+        <dt><span>Comment</span></dt>
+        <dd>
+          <span>{{ serviceOrder.comment }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <div *ngIf="serviceOrder.status">
+            <a [routerLink]="['/catalog', serviceOrder.status?.id, 'view']">{{ serviceOrder.status?.name }}</a>
+          </div>
+        </dd>
+        <dt><span>Order</span></dt>
+        <dd>
+          <div *ngIf="serviceOrder.order">
+            <a [routerLink]="['/order', serviceOrder.order?.id, 'view']">{{ serviceOrder.order?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Business Service</span></dt>
+        <dd>
+          <div *ngIf="serviceOrder.businessService">
+            <a [routerLink]="['/business-service', serviceOrder.businessService?.id, 'view']">{{ serviceOrder.businessService?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/service-order', serviceOrder.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

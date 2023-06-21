@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-file-heading" data-cy="FileCreateUpdateHeading">Create or edit a File</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_uRL">U RL</label>
+          <input type="text" class="form-control" name="uRL" id="field_uRL" data-cy="uRL" formControlName="uRL" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_bLOB">B LOB</label>
+          <div>
+            <div *ngIf="editForm.get('bLOB')!.value" class="form-text text-danger clearfix">
+              <a class="pull-left" (click)="openFile(editForm.get('bLOB')!.value, editForm.get('bLOBContentType')!.value)">open</a><br />
+              <span class="pull-left">{{ editForm.get('bLOBContentType')!.value }}, {{ byteSize(editForm.get('bLOB')!.value) }}</span>
+              <button
+                type="button"
+                (click)="editForm.patchValue({ bLOB: null }); editForm.patchValue({ bLOBContentType: null })"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input type="file" id="file_bLOB" data-cy="bLOB" (change)="setFileData($event, 'bLOB', false)" />
+          </div>
+          <input type="hidden" class="form-control" name="bLOB" id="field_bLOB" data-cy="bLOB" formControlName="bLOB" />
+          <input type="hidden" class="form-control" name="bLOBContentType" id="field_bLOBContentType" formControlName="bLOBContentType" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_order">Order</label>
+          <select class="form-control" id="field_order" data-cy="order" name="order" formControlName="order">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="orderOption.id === editForm.get('order')!.value?.id ? editForm.get('order')!.value : orderOption"
+              *ngFor="let orderOption of ordersSharedCollection; trackBy: trackOrderById"
+            >
+              {{ orderOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_serviceOrder">Service Order</label>
+          <select class="form-control" id="field_serviceOrder" data-cy="serviceOrder" name="serviceOrder" formControlName="serviceOrder">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                serviceOrderOption.id === editForm.get('serviceOrder')!.value?.id ? editForm.get('serviceOrder')!.value : serviceOrderOption
+              "
+              *ngFor="let serviceOrderOption of serviceOrdersSharedCollection; trackBy: trackServiceOrderById"
+            >
+              {{ serviceOrderOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,166 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card card-user" *ngIf="business">
+        <div class="header-profile-business"></div>
+        <div class="card-body" *ngIf="business.location">
+          <div class="author">
+            <img class="border-gray image-container" src="{{ business.image }}" alt="..." />
+            <h6 class="card-subtitle text-muted">
+              <span class="badge bg-warning">{{ business.category }}</span>
+            </h6>
+            <h5 class="title">{{ business.name }}</h5>
+
+            <p class="description">
+              {{ business.location.exactLocation }}
+            </p>
+            <p class="description">{{ business.location.province }}, {{ business.location.canton }} , {{ business.location.district }}</p>
+          </div>
+          <div class="card-footer">
+            <hr />
+            <div class="button-container">
+              <div class="row">
+                <div class="col-md-6 col-6 ml-auto mr-auto">
+                  <h5>
+                    <small>Calificación</small>
+                    <br />
+                    <ngb-rating *ngIf="business.rating" [rate]="business.rating"></ngb-rating>
+                  </h5>
+                </div>
+              </div>
+
+              <div class="row" *jhiHasAnyAuthority="'ROLE_BUSINESS_ADMIN'">
+                <div class="col-md-8 col-8 ml-auto mr-auto">
+                  <br />
+                  <button
+                    class="btn btn-primary"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Posiciona a tu comercio en los primeros en la lista de búsqueda."
+                    (click)="updateSeoStatus(false)"
+                    *ngIf="!myBooleanVal && !pendingStatus"
+                  >
+                    Activar SEO
+                  </button>
+                  <button
+                    class="btn btn-warning"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Posiciona a tu comercio en los primeros en la lista de búsqueda."
+                    (click)="updateSeoStatus(false)"
+                    *ngIf="pendingStatus"
+                    disabled
+                  >
+                    SEO pendiente de pago
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Desactiva el posicionamiento de tu comercio en la lista de búsqueda."
+                    (click)="updateSeoStatus(true)"
+                    *ngIf="myBooleanVal && !pendingStatus"
+                  >
+                    Desactivar SEO
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" *jhiHasAnyAuthority="'ROLE_USER'">
+                <div class="col-md-8 col-8 ml-auto mr-auto">
+                  <button [routerLink]="['/orders']" class="btn btn-warning btn-sm">Agendar cita</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Ubicación</h4>
+        </div>
+        <div class="card-body" *ngIf="business">
+          <agm-map style="height: 300px" [latitude]="lat" [longitude]="lng" [zoom]="16">
+            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+          </agm-map>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Servicios ofrecidos</h4>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-warning" id="no-result" *ngIf="businessServices?.length === 0">
+            <span>No existen servicios registrados en este comercio </span>
+          </div>
+          <div class="table-full-width table-responsive" *ngIf="businessServices && businessServices.length > 0">
+            <table class="table">
+              <thead class="">
+                <tr>
+                  <th>Servicio</th>
+                  <th>Precio</th>
+                  <th class="text-center"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let businessService of businessServices" data-cy="entityTable">
+                  <td>
+                    <div *ngIf="businessService.service">
+                      {{ businessService.service.name }}
+                    </div>
+                  </td>
+                  <td>₡{{ businessService.price }}</td>
+                  <td class="" [hidden]="true">{{ businessService.duration }}h</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Reseña</h4>
+          <h5 class="card-category">Calificaciones y comentarios</h5>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-warning" id="no-resultRaitings" *ngIf="ratComements?.length === 0">
+            <span>No existen calificaciones y comentarios registrados en este comercio</span>
+          </div>
+          <div class="table-full-width table-responsive" *ngIf="ratComements && ratComements.length > 0">
+            <table class="table">
+              <thead class="">
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let ratings of ratComements" data-cy="entityTable">
+                  <td class="img-row">
+                    <div class="img-wrapper">
+                      <img src="{{ ratings.image }}" class="img-raised" />
+                    </div>
+                  </td>
+                  <td>{{ ratings.userName }}</td>
+                  <td class="text-center">{{ ratings.comment }}</td>
+                  <td class="text-justify">
+                    <div class="list-group h4 text-center">
+                      <ngb-rating *ngIf="ratings.rating" [rate]="ratings.rating"></ngb-rating>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer">
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

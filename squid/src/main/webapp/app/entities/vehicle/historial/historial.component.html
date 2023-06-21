@@ -1,0 +1,140 @@
+<script src="../../service-order/service-order.model.ts"></script>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Mi historial de servicios</h4>
+          <a [hidden]="hideButton === true" class="text-warning font-weight-bold" (click)="showRecommendation()"
+            ><span class="sale"><i class="fa fa-star"></i></span>Ver recomendación</a
+          >
+          <div class="alert alert-warning" id="no-result" *ngIf="serviceOrders?.length === 0">
+            <span>No posee registro de servicios actualmente.</span>
+          </div>
+          <div
+            id="accordion"
+            role="tablist"
+            aria-multiselectable="true"
+            class="card-collapse"
+            *ngIf="serviceOrders && serviceOrders.length > 0"
+          >
+            <div class="card card-plain" *ngFor="let serviceOrder of serviceOrders; let i = index">
+              <div class="card-header" role="tab" [attr.id]="'heading' + i">
+                <p class="font-weight-bold">
+                  <span class="badge bg-primary rounded-pill">{{ i + 1 }}</span> {{ serviceOrder.businessService?.service?.name }} -
+                  {{ serviceOrder.startDate | formatMediumDate }}
+                  <span *ngIf="serviceOrder.status?.name === 'En espera'" class="badge bg-warning">{{ serviceOrder.status?.name }}</span>
+                  <span *ngIf="serviceOrder.status?.name === 'En proceso'" class="badge bg-primary">{{ serviceOrder.status?.name }}</span>
+                  <span *ngIf="serviceOrder.status?.name === 'Terminado'" class="badge bg-success">{{ serviceOrder.status?.name }}</span>
+                </p>
+              </div>
+              <div [attr.id]="'collapse' + i" class="collapse show" role="tabpanel" [attr.aria-labelledby]="'heading' + i">
+                <div class="card-body">
+                  <form name="form" role="form" novalidate>
+                    <div class="row">
+                      <div class="col-md-4 pr-1">
+                        <div class="form-group">
+                          <label>Servicio</label>
+                          <input
+                            type="text"
+                            class="form-control readonly"
+                            id="plate"
+                            readonly
+                            value="{{ serviceOrder.businessService?.service?.name }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4 pr-1">
+                        <div class="form-group">
+                          <label>Fecha de inicio:</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="email"
+                            readonly
+                            value="{{ serviceOrder.startDate | formatMediumDate }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Fecha de fin:</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="endDate"
+                            readonly
+                            value="{{ serviceOrder.endDate | formatMediumDate }}"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-4 pr-1">
+                        <div class="form-group">
+                          <label>Estado</label>
+                          <input type="text" class="form-control readonly" id="rtv" readonly value="{{ serviceOrder.status?.name }}" />
+                        </div>
+                      </div>
+                      <div class="col-md-4 pr-1">
+                        <div class="form-group">
+                          <label>Costo del servicio</label>
+                          <input
+                            type="text"
+                            class="form-control readonly"
+                            id="cost"
+                            readonly
+                            value="₡{{ serviceOrder.businessService?.price }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Negocio</label>
+                          <input
+                            type="text"
+                            class="form-control readonly"
+                            id="business"
+                            readonly
+                            value="{{ serviceOrder.order?.business?.name }}"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Comentarios</label>
+                          <input type="text" class="form-control readonly" id="comments" readonly value="{{ serviceOrder.comment }}" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" *ngIf="serviceOrder.files?.length !== null">
+                      <div class="col-md-12">
+                        <table class="table">
+                          <tr>
+                            <td class="text-right">Fotografías:</td>
+                            <td class="img-row" *ngFor="let file of serviceOrder.files">
+                              <div class="img-wrapper">
+                                <a href="{{ file.uRL }}" target="_blank">
+                                  <img [src]="file.uRL" class="img-raised" />
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

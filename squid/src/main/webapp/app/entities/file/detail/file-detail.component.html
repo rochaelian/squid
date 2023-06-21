@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="file">
+      <h2 data-cy="fileDetailsHeading"><span>File</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ file.id }}</span>
+        </dd>
+        <dt><span>U RL</span></dt>
+        <dd>
+          <span>{{ file.uRL }}</span>
+        </dd>
+        <dt><span>B LOB</span></dt>
+        <dd>
+          <div *ngIf="file.bLOB">
+            <a (click)="openFile(file.bLOB, file.bLOBContentType)">open</a>
+            {{ file.bLOBContentType }}, {{ byteSize(file.bLOB) }}
+          </div>
+        </dd>
+        <dt><span>Order</span></dt>
+        <dd>
+          <div *ngIf="file.order">
+            <a [routerLink]="['/order', file.order?.id, 'view']">{{ file.order?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Service Order</span></dt>
+        <dd>
+          <div *ngIf="file.serviceOrder">
+            <a [routerLink]="['/service-order', file.serviceOrder?.id, 'view']">{{ file.serviceOrder?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/file', file.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

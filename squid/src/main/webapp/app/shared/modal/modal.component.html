@@ -1,0 +1,8 @@
+<div class="modal">
+  <div class="modal-overlay" (click)="close($event)"></div>
+  <div class="modal--modal-content">
+    <a class="modal--close-btn" (click)="close($event)">X</a>
+
+    <img id="myImg" [src]="modalImageUrl" alt="Snow" style="width: 100%; max-width: 300px" />
+  </div>
+</div>

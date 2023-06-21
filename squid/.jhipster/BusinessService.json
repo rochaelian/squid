@@ -1,0 +1,38 @@
+{
+  "name": "BusinessService",
+  "fields": [
+    {
+      "fieldName": "price",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "duration",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "business",
+      "otherEntityRelationshipName": "businessService",
+      "relationshipName": "business",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "catService",
+      "otherEntityRelationshipName": "businessService",
+      "relationshipName": "service"
+    }
+  ],
+  "entityTableName": "business_service",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210708010757"
+}

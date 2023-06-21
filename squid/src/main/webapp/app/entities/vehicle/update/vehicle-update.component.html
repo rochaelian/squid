@@ -1,0 +1,181 @@
+<div class="row">
+  <div class="col-8">
+    <div class="card card-user">
+      <div class="card-header">
+        <h4 id="jhi-vehicle-heading" data-cy="VehicleCreateUpdateHeading">{{ this.title }}</h4>
+
+        <jhi-alert-error></jhi-alert-error>
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+          <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+            <label class="form-control-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+          <div>
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_plate">Placa</label>
+                  <input type="text" class="form-control" name="plate" id="field_plate" data-cy="plate" formControlName="plate" />
+                </div>
+              </div>
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_year">Año</label>
+                  <input type="text" class="form-control" name="year" id="field_year" data-cy="year" formControlName="year" />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_rTV">Próximo RTV</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="nc-icon nc-calendar-60"></i>
+                      </span>
+                    </div>
+                    <input
+                      (ngModelChange)="futureDateValidator($event)"
+                      id="field_rTV"
+                      data-cy="rTV"
+                      type="text"
+                      class="form-control"
+                      name="rTV"
+                      ngbDatepicker
+                      #rTVDp="ngbDatepicker"
+                      formControlName="rTV"
+                      #d="ngbDatepicker"
+                      (click)="d.toggle()"
+                    />
+                  </div>
+
+                  <div>
+                    <small class="form-text text-danger" *ngIf="futureRTVDateError"> La fecha debe ser en el futuro. </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_insurer">Aseguradora</label>
+                  <select class="form-control" id="field_insurer" data-cy="insurer" name="insurer" formControlName="insurer">
+                    <option [ngValue]="null">(Vehículo no asegurado)</option>
+                    <ng-container *ngFor="let catalogOption of catalogsSharedCollection; trackBy: trackCatalogById">
+                      <option
+                        [ngValue]="catalogOption.id === editForm.get('insurer')!.value?.id ? editForm.get('insurer')!.value : catalogOption"
+                        *ngIf="catalogOption.type === 'Aseguradora' && catalogOption.status === 'Enabled'"
+                      >
+                        {{ catalogOption.name }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_motorType">Tipo de Motor</label>
+                  <select class="form-control" id="field_motorType" data-cy="motorType" name="motorType" formControlName="motorType">
+                    <!--                    <option [ngValue]="null"></option>-->
+                    <ng-container *ngFor="let catalogOption of catalogsSharedCollection; trackBy: trackCatalogById">
+                      <option
+                        [ngValue]="
+                          catalogOption.id === editForm.get('motorType')!.value?.id ? editForm.get('motorType')!.value : catalogOption
+                        "
+                        *ngIf="catalogOption.type === 'Tipo de motor' && catalogOption.status === 'Enabled'"
+                      >
+                        {{ catalogOption.name }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_vehicleType">Tipo de Vehículo</label>
+                  <select
+                    class="form-control"
+                    id="field_vehicleType"
+                    data-cy="vehicleType"
+                    name="vehicleType"
+                    formControlName="vehicleType"
+                  >
+                    <ng-container *ngFor="let catalogOption of catalogsSharedCollection; trackBy: trackCatalogById">
+                      <option
+                        [ngValue]="
+                          catalogOption.id === editForm.get('vehicleType')!.value?.id ? editForm.get('vehicleType')!.value : catalogOption
+                        "
+                        *ngIf="catalogOption.type === 'Tipo de vehículo' && catalogOption.status === 'Enabled'"
+                      >
+                        {{ catalogOption.name }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_brand">Marca</label>
+                  <select class="form-control" id="field_brand" data-cy="brand" name="brand" formControlName="brand">
+                    <option [ngValue]="null">(Marca no disponible)</option>
+                    <ng-container *ngFor="let catalogOption of catalogsSharedCollection; trackBy: trackCatalogById">
+                      <option
+                        [ngValue]="catalogOption.id === editForm.get('brand')!.value?.id ? editForm.get('brand')!.value : catalogOption"
+                        *ngIf="catalogOption.type === 'Marca' && catalogOption.status === 'Enabled'"
+                      >
+                        {{ catalogOption.name }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_status">Estado</label>
+                  <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+                    <!--            <option value="Pending">Pending</option>-->
+                    <option value="Enabled" selected="selected">Habilitado</option>
+                    <option value="Disabled">Deshabilitado</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_BUSINESS_ADMIN', 'ROLE_OPERATOR']">
+              <label class="form-control-label" for="field_user">Usuario</label>
+              <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user">
+                <option [ngValue]="null"></option>
+                <option
+                  [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption"
+                  *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+                >
+                  {{ userOption.id }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+              <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+            </button>
+
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

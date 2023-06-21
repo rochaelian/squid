@@ -1,0 +1,441 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card card-user">
+      <div class="card-header">
+        <h2 class="card-title" data-cy="BusinessCreateUpdateHeading">{{ titulo }}</h2>
+      </div>
+      <div class="card-body">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+          <div>
+            <div class="form-group" [hidden]="true">
+              <label class="form-control-label" for="field_id">ID</label>
+              <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+            </div>
+
+            <div>
+              <div class="form-group" [hidden]="isSpecialDate == true">
+                <label class="form-control-label" for="field_monday">Día</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="day"
+                  id="field_monday"
+                  data-cy="monday"
+                  formControlName="monday"
+                  [readonly]="true"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_startTime_monday">Hora inicio</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startTime_monday"
+                        data-cy="startTimeMonday"
+                        type="time"
+                        class="form-control"
+                        name="startTimeMonday"
+                        formControlName="startTimeMonday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_endTime_monday">Hora fin</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endTime_monday"
+                        data-cy="endTimeMonday"
+                        type="time"
+                        class="form-control"
+                        name="endTimeMonday"
+                        formControlName="endTimeMonday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group" [hidden]="isSpecialDate == true">
+                <label class="form-control-label" for="field_tuesday">Día</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="day"
+                  id="field_tuesday"
+                  data-cy="tuesday"
+                  formControlName="tuesday"
+                  [readonly]="true"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_startTime_tuesday">Hora inicio</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startTime_tuesday"
+                        data-cy="startTimeTuesday"
+                        type="time"
+                        class="form-control"
+                        name="startTimeTuesday"
+                        formControlName="startTimeTuesday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_endTime_tuesday">Hora fin</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endTime_tuesday"
+                        data-cy="endTimeTuesday"
+                        type="time"
+                        class="form-control"
+                        name="endTimeTuesday"
+                        formControlName="endTimeTuesday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group" [hidden]="isSpecialDate == true">
+                <label class="form-control-label" for="field_wednesday">Día</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="day"
+                  id="field_wednesday"
+                  data-cy="wednesday"
+                  formControlName="wednesday"
+                  [readonly]="true"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_startTime_wednesday">Hora inicio</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startTime_wednesday"
+                        data-cy="startTimeWednesday"
+                        type="time"
+                        class="form-control"
+                        name="startTimeWednesday"
+                        formControlName="startTimeWednesday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_endTime_wednesday">Hora fin</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endTime_wednesday"
+                        data-cy="endTimeWednesday"
+                        type="time"
+                        class="form-control"
+                        name="endTimeWednesday"
+                        formControlName="endTimeWednesday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group" [hidden]="isSpecialDate == true">
+                <label class="form-control-label" for="field_thursday">Día</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="day"
+                  id="field_thursday"
+                  data-cy="thursday"
+                  formControlName="thursday"
+                  [readonly]="true"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_startTime_thursday">Hora inicio</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startTime_thursday"
+                        data-cy="startTimeThursday"
+                        type="time"
+                        class="form-control"
+                        name="startTimeThursday"
+                        formControlName="startTimeThursday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_endTime_thursday">Hora fin</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endTime_thursday"
+                        data-cy="endTimeThursday"
+                        type="time"
+                        class="form-control"
+                        name="endTimeThursday"
+                        formControlName="endTimeThursday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group" [hidden]="isSpecialDate == true">
+                <label class="form-control-label" for="field_friday">Día</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="day"
+                  id="field_friday"
+                  data-cy="friday"
+                  formControlName="friday"
+                  [readonly]="true"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_startTime_friday">Hora inicio</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startTime_friday"
+                        data-cy="startTimeFriday"
+                        type="time"
+                        class="form-control"
+                        name="startTimeFriday"
+                        formControlName="startTimeFriday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_endTime_friday">Hora fin</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endTime_friday"
+                        data-cy="endTimeFriday"
+                        type="time"
+                        class="form-control"
+                        name="endTimeFriday"
+                        formControlName="endTimeFriday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group" [hidden]="isSpecialDate == true">
+                <label class="form-control-label" for="field_saturday">Día</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="day"
+                  id="field_saturday"
+                  data-cy="saturday"
+                  formControlName="saturday"
+                  [readonly]="true"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_startTime_saturday">Hora inicio</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startTime_saturday"
+                        data-cy="startTimeSaturday"
+                        type="time"
+                        class="form-control"
+                        name="startTimeSaturday"
+                        formControlName="startTimeSaturday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_endTime_saturday">Hora fin</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endTime_saturday"
+                        data-cy="endTimeSaturday"
+                        type="time"
+                        class="form-control"
+                        name="endTimeSaturday"
+                        formControlName="endTimeSaturday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group" [hidden]="isSpecialDate == true">
+                <label class="form-control-label" for="field_sunday">Día</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="day"
+                  id="field_sunday"
+                  data-cy="sunday"
+                  formControlName="sunday"
+                  [readonly]="true"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_startTime_sunday">Hora inicio</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_startTime_sunday"
+                        data-cy="startTimeSunday"
+                        type="time"
+                        class="form-control"
+                        name="startTimeSunday"
+                        formControlName="startTimeSunday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                  <div class="form-group" [hidden]="isSpecialDate == true">
+                    <label class="form-control-label" for="field_endTime_sunday">Hora fin</label>
+                    <div class="d-flex">
+                      <input
+                        id="field_endTime_sunday"
+                        data-cy="endTimeSunday"
+                        type="time"
+                        class="form-control"
+                        name="endTimeSunday"
+                        formControlName="endTimeSunday"
+                        placeholder="YYYY-MM-DD HH:mm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" [hidden]="true">
+              <label class="form-control-label" for="field_isSpecial">Is Special</label>
+              <input
+                type="checkbox"
+                class="form-check"
+                name="isSpecial"
+                id="field_isSpecial"
+                data-cy="isSpecial"
+                formControlName="isSpecial"
+              />
+            </div>
+
+            <div class="form-group" [hidden]="isSpecialDate == false">
+              <label class="form-control-label" for="field_specialDate">Fecha de cierre</label>
+              <div class="input-group">
+                <input
+                  (ngModelChange)="futureDateValidator($event)"
+                  id="field_specialDate"
+                  data-cy="specialDate"
+                  type="text"
+                  class="form-control"
+                  name="specialDate"
+                  ngbDatepicker
+                  #specialDateDp="ngbDatepicker"
+                  formControlName="specialDate"
+                />
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-secondary" (click)="specialDateDp.toggle()">
+                    <fa-icon icon="calendar-alt"></fa-icon>
+                  </button>
+                </span>
+              </div>
+              <div>
+                <small class="form-text text-danger" *ngIf="futureDateError"> * La fecha debe ser a futuro. </small>
+              </div>
+            </div>
+
+            <div class="form-group" [hidden]="isSpecialDate == true">
+              <label class="form-control-label" for="field_business">Comercio</label>
+              <input
+                type="text"
+                class="form-control"
+                name="business"
+                id="field_business"
+                data-cy="business"
+                formControlName="business"
+                [readonly]="true"
+              />
+            </div>
+
+            <div class="form-group" [hidden]="isSpecialDate == false">
+              <label class="form-control-label" for="field_business_c">Comercio</label>
+              <select class="form-control" id="field_business_c" data-cy="business" name="business" formControlName="business">
+                <option [ngValue]="null"></option>
+                <option
+                  [ngValue]="businessOption.id === editForm.get('business')!.value?.id ? editForm.get('business')!.value : businessOption"
+                  *ngFor="let businessOption of businessesSharedCollection; trackBy: trackBusinessById"
+                >
+                  {{ businessOption.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+              <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+            </button>
+
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary"
+            >
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
